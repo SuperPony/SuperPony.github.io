@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-11-03T06:53:13.321Z</updated>
+    <updated>2019-11-03T06:55:10.119Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -33,7 +33,7 @@
 <h3 id="absolute">absolute</h3>
 <pre><code>* 如果父元素也是使用定位的元素，则在定位时，以父元素作为参照物，否则以根元素作为参照物。
 * 当以根元素作为参照物时，top 定位时，则以左上角为起始位置进行定位。
-* 当以根元素作为参照物时，bottom 定位时，则是以&lt;b&gt;窗口的&lt;/b&gt;左下角进行定位.
+* 当以根元素作为参照物时，bottom 定位时，则是以**窗口**的左下角进行定位.
 </code></pre>
 <hr>
 <h2 id="单位">单位</h2>
