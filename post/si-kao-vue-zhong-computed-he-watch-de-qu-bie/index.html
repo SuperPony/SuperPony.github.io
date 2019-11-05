@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>定位 | SuperPony&#39;s Blog</title>
+<title>思考 Vue 中 computed 和 watch 的区别 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
 <link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1572954269485">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
@@ -76,94 +76,39 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              定位
+              思考 Vue 中 computed 和 watch 的区别
             </h2>
             <div class="post-info">
               <span>
-                2019-11-02
+                2019-11-05
               </span>
               <span>
                 2 min read
               </span>
               
-                <a href="https://superpony.github.io//tag/xPWbMDg0W" class="post-tag">
-                  # CSS
+                <a href="https://superpony.github.io//tag/VQFBgKmL3" class="post-tag">
+                  # Vue
                 </a>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <h2 id="定义的三种机制">定义的三种机制</h2>
-<ul>
-<li>
-<p>普通流 static： 元素的默认属性，没有定位，遵循文档流。</p>
-</li>
-<li>
-<p>绝对定位 absolute：被绝对定位的元素，会彻底脱离文档流，其原本在流中占据的位置被移除。</p>
-</li>
-<li>
-<p>相对定位：相对定位的元素以原本所在的位置进行偏移，其原本在流中的位置被保留。</p>
-</li>
-</ul>
-<hr>
-<h2 id="绝对定位">绝对定位</h2>
-<h3 id="absolute">absolute</h3>
-<ul>
-<li>如果父元素也是使用定位的元素，则在定位时，以父元素作为参照物，否则以根元素作为参照物。</li>
-<li>当以根元素作为参照物时，bottom 定位时，则是以<strong>视口</strong>的左下角进行定位，但与 fiexd 不同的是，absolute 定位的元素不会随着屏幕的滚动而移动。</li>
-</ul>
-<h3 id="fiexd">fiexd</h3>
-<ul>
-<li>fiexd 以参照物为<strong>视口</strong>，当屏幕滚动时，fiexd 定位的元素随之移动。</li>
-</ul>
-<hr>
-<h2 id="单位">单位</h2>
-<ul>
-<li>
-<p>百分比： 当偏移的值以 % 作为单位时，其实际移动的偏移量为 父元素宽｜高 * 百分比。</p>
-</li>
-<li>
-<p>例如：</p>
-</li>
-</ul>
-<pre><code>    &lt;style&gt;
-        #app {
-            height: 500px;
-            width: 500px;
-            background-color: blue;
-        }
-
-        #demo {
-            height: 100px;
-            width: 100px;
-            background-color: green;
-            position: relative;
-            left: 10%; // 实际向右偏移50px。
-        }
-    &lt;style&gt;
-
-    &lt;div id=&quot;app&quot;&gt;
-        &lt;div id=&quot;demo&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
-
-</code></pre>
+                <p>由于本人比较笨，理解能力也不太好，所以在学习和使用 Vue 里的 computed 和 watch 的时候，遇到了一个问题，就是 这俩玩意有啥区别？<br>
+于是乎，查文档带百度吧！😤<br>
+百度之后发现了一篇讲的个人觉着很生动和形象的 <a href="https://blog.csdn.net/mystric594/article/details/77849361">文章</a>。 当然，本着要（字）把（数）知（太）识（少）转（实）为（在）自（糊）己（弄）的（不）理（过）解（去）和（的）语（心）言（情）的（🌝）原则，还是将自己看过后的理解，写出来吧！</p>
+<h1 id="computed">computed</h1>
+<p>computed 适用于：一个属性的变化 依赖一个或多个属性的变化；打个比喻，它就像个没有主见的人，别人一动或者一变化，它就跟着变动。</p>
+<h1 id="watch">watch</h1>
+<p>watch 适用于：当一个属性变化时，去改变其他的属性（当然这个取决于具体业务逻辑）；它就像个很强势的人，当它变了，就会要求其他人也变动。</p>
+<p>PS.同时触发了 watch 和 computed 时，计算属性先触发。</p>
+<p>再次PS.实在是写（编）不动了，如果假以时日，有哪位大佬看到这边文章了，请指出不足之处，万分感激！🙏</p>
 
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#%E5%AE%9A%E4%B9%89%E7%9A%84%E4%B8%89%E7%A7%8D%E6%9C%BA%E5%88%B6">定义的三种机制</a></li>
-<li><a href="#%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D">绝对定位</a>
-<ul>
-<li><a href="#absolute">absolute</a></li>
-<li><a href="#fiexd">fiexd</a></li>
-</ul>
-</li>
-<li><a href="#%E5%8D%95%E4%BD%8D">单位</a></li>
-</ul>
-</li>
+<li><a href="#computed">computed</a></li>
+<li><a href="#watch">watch</a></li>
 </ul>
 
               </div>
@@ -174,9 +119,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://superpony.github.io//post/first">
+            <a href="https://superpony.github.io//post/ji-yi-ci-margin-top-de-keng">
               <h3 class="post-title">
-                First
+                记一次 margin 塌陷的坑
               </h3>
             </a>
           </div>
