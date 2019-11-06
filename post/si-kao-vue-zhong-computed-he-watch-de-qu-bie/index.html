@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>思考 Vue 中 computed 和 watch 的区别 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
-<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1572999905393">
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1573000076016">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
   integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -19,7 +19,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://superpony.github.io/">
-  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1572999905393" alt="">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1573000076016" alt="">
   </a>
   <h1 class="site-title">
     SuperPony&#39;s Blog
@@ -83,8 +83,12 @@
                 2019-11-06
               </span>
               <span>
-                1 min read
+                2 min read
               </span>
+              
+                <a href="https://superpony.github.io//tag/VQFBgKmL3" class="post-tag">
+                  # Vue
+                </a>
               
             </div>
             
@@ -92,10 +96,24 @@
               <div class="post-content">
                 <p>  由于本人比较笨，理解能力也不太好，所以在学习和使用 Vue 里的 computed 和 watch 的时候，遇到了一个问题，就是 这俩玩意有啥区别？于是乎，查文档带百度吧！😤</p>
 <p>  百度之后发现了一篇讲的个人觉着很生动和形象的 <a href="https://blog.csdn.net/mystric594/article/details/77849361">文章</a>。 当然，本着要（字）把（数）知（太）识（少）转（实）为（在）自（糊）己（弄）的（不）理（过）解（去）和（的）语（心）言（情）的（🌝）原则，还是将自己看过后的理解，写出来吧！</p>
+<h1 id="computed">computed</h1>
+<p>computed 适用于：一个属性的变化 依赖一个或多个属性的变化；打个比喻，它就像个没有主见的人，别人一动或者一变化，它就跟着变动。</p>
+<h1 id="watch">watch</h1>
+<p>watch 适用于：当一个属性变化时，去改变其他的属性,或是触发一些业务逻辑，（当然这个取决于具体的业务逻辑）；它就像个很强势的人，当它变了，就会要求其他人也变动。</p>
+<h1 id="ps">PS.</h1>
+<ul>
+<li>同时触发了 watch 和 computed 时，计算属性先触发。</li>
+<li>如果假以时日，有哪位大佬看到这边文章了，请指出不足之处，万分感激！🙏</li>
+</ul>
 
               </div>
               <div class="toc-container">
-                
+                <ul class="markdownIt-TOC">
+<li><a href="#computed">computed</a></li>
+<li><a href="#watch">watch</a></li>
+<li><a href="#ps">PS.</a></li>
+</ul>
+
               </div>
             </div>
           </article>
