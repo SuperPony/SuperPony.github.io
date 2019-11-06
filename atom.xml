@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-11-06T00:31:59.923Z</updated>
+    <updated>2019-11-06T08:10:56.312Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -10,6 +10,106 @@
     <logo>https://superpony.github.io//images/avatar.png</logo>
     <icon>https://superpony.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, SuperPony&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[BEM]]></title>
+        <id>https://superpony.github.io//post/bem</id>
+        <link href="https://superpony.github.io//post/bem">
+        </link>
+        <updated>2019-11-06T07:08:07.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="什么是-bem">什么是 BEM</h1>
+<ul>
+<li>BEM 是俄罗斯团队 Yandex 团队提出的一种前端CSS命名方法，通过组件化/模块化 的命名思想，让 CSS 的解构和命名语义更佳规范和透明，便于维护。</li>
+</ul>
+<h1 id="bem-的构成">BEM 的构成</h1>
+<ul>
+<li>BEM 由 块（block）、元素（element）、修饰符（modifier） 三个部分构成。</li>
+<li>命名约定的规范如下：</li>
+</ul>
+<pre><code>    /* 块 */
+    .my-block {}
+
+    /* 元素 */
+    .my-block__my-element {}
+
+    /* 修饰符 */
+    .my-block--my-modifier {}
+    .my-block__my-element--my-modifier {}
+</code></pre>
+<ul>
+<li>单词之间以 - 分割。</li>
+</ul>
+<h2 id="块">块</h2>
+<ul>
+<li>任何可以独立，复用而不依赖其他块的部分，都可以单独作为一个块。</li>
+<li>块可以嵌套其他块，来实现业务逻辑。</li>
+<li>例如 一个 from 表单，一个 header 头 都可以作为一个块，来为其单独命名。</li>
+</ul>
+<h2 id="元素">元素</h2>
+<ul>
+<li>元素是块的组成部分，对应块中的子元素/子节点。</li>
+<li>元素的命名必须声名其所属的块名称。例如 <code>.my-from__input</code></li>
+<li>块名与元素之间以 __  （双下划）线分割。</li>
+</ul>
+<h2 id="修饰符">修饰符</h2>
+<ul>
+<li>修饰符的意义在于让 块/元素拥有更丰富的外观或行为，来应对不同的情景。</li>
+<li>修饰符不可以单独使用，它的意义是为了丰富 块/元素。</li>
+<li>例如 buttom 按钮， 可以 为其定义 error 和 success 修饰符，分别为其定义属性，让其应对不同的情景。</li>
+</ul>
+<pre><code>&lt;template&gt;
+    &lt;form class=&quot;my-form&quot; id=&quot;test&quot;&gt;
+        &lt;input class=&quot;my-form__input&quot; type=&quot;text&quot; /&gt;
+        &lt;button class=&quot;my-form__button&quot;&gt;click me&lt;/button&gt;
+        &lt;button class=&quot;my-form__button--danger&quot;&gt;don't click me&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/template&gt;
+&lt;script&gt;
+    export default {
+
+    }
+&lt;/script&gt;
+
+&lt;style lang=&quot;css&quot; scoped&gt;
+    /* from 可以单独作为一个可以复用的组件，所以可以将其设置为一个单独的块 */
+    .my-form {
+        width: 500px;
+        height: 500px;
+    }
+
+    .my-form__input {
+        width: 100px;
+    }
+
+    .my-form__button {
+        background-color: aqua;
+    }
+
+     /* 修饰符让 块/元素 拥有更丰富的语意和情景 */
+    .my-form__button--danger {
+        background-color: red;
+    }
+
+    .my-form__button--danger {
+        background-color: red;
+    }
+&lt;/style&gt; 
+</code></pre>
+<h1 id="bem-的好处">BEM 的好处</h1>
+<ul>
+<li>通过 组件化/模块化 的思想，让整个项目的 CSS 拆分，从而解耦合。</li>
+<li>规范化的命名方式 <code>block__element--modifier</code> ,让整个 CSS 书写起来结构化更佳清晰，可读，灵活。</li>
+<li>命名方法扁平化，可以避免样式层级过多而导致解析效率变低。</li>
+</ul>
+<h1 id="bem-的坏处">BEM 的坏处</h1>
+<ul>
+<li>命名过长。</li>
+</ul>
+<h1 id="总结">总结</h1>
+<ul>
+<li>利远大于弊。</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[思考 Vue 中 computed 和 watch 的区别]]></title>
         <id>https://superpony.github.io//post/si-kao-vue-zhong-computed-he-watch-de-qu-bie</id>

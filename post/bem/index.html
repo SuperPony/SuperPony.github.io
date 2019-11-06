@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>记一次 margin 塌陷的坑 | SuperPony&#39;s Blog</title>
+<title>BEM | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
 <link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1573027852924">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
@@ -76,11 +76,11 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              记一次 margin 塌陷的坑
+              BEM
             </h2>
             <div class="post-info">
               <span>
-                2019-11-04
+                2019-11-06
               </span>
               <span>
                 3 min read
@@ -94,76 +94,113 @@
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <h1 id="起因">起因</h1>
-<p>由于本人 CSS 十分的菜，所以闲暇之余，便借机会重新温习下 CSS 的知识，在练习着写一些页面样式的时候，需要用到 margin-top 属性，然后问题发生了。</p>
-<p>测试代码如下：</p>
-<pre><code> &lt;style&gt;
-      .app {
-          height: 500px;
-          width: 500px;
-          background-color: blue;
-      }
+                <h1 id="什么是-bem">什么是 BEM</h1>
+<ul>
+<li>BEM 是俄罗斯团队 Yandex 团队提出的一种前端CSS命名方法，通过组件化/模块化 的命名思想，让 CSS 的解构和命名语义更佳规范和透明，便于维护。</li>
+</ul>
+<h1 id="bem-的构成">BEM 的构成</h1>
+<ul>
+<li>BEM 由 块（block）、元素（element）、修饰符（modifier） 三个部分构成。</li>
+<li>命名约定的规范如下：</li>
+</ul>
+<pre><code>    /* 块 */
+    .my-block {}
 
-      #demo {
-          height: 100px;
-          width: 100px;
-          background-color: green;
-          margin-top:10%;
-      }
+    /* 元素 */
+    .my-block__my-element {}
 
-      #demo2 {
-          height: 100px;
-          width: 100px;
-          background-color: red;
-      }
-  &lt;/style&gt;
-   &lt;div class=&quot;app&quot;&gt;
-      &lt;div id=&quot;demo&quot;&gt;&lt;/div&gt;
-      &lt;div id=&quot;demo2&quot;&gt;&lt;/div&gt;
-  &lt;/div&gt;
+    /* 修饰符 */
+    .my-block--my-modifier {}
+    .my-block__my-element--my-modifier {}
 </code></pre>
-<p>实际效果：<br>
-<img src="https://superpony.github.io//post-images/1572837073689.png" alt=""></p>
-<p>什么鬼？？？讲道理不因该是绿色的往下偏移吗？（心里一万只草泥马呼啸而过），但本着东西做不出来，一定是技师水平不到位的原则，百度一下吧！🙄</p>
-<p>百度一下后，发现了一个名叫 margin 塌陷的经典问题。</p>
-<h2 id="margin-塌陷">margin 塌陷</h2>
 <ul>
-<li>指 嵌套级的父子块级元素，<strong>首个</strong>块级子元素与父元素的 marigin-top 属性是结合在一起的，并取其最大的值。(why???),当给该子元素设置 margin-top 时，会连带着父级元素一下往下移动。</li>
+<li>单词之间以 - 分割。</li>
 </ul>
-<h2 id="解决方案">解决方案</h2>
-<p>需要先了解一个重要概念， <strong>BFC</strong>。</p>
-<h2 id="bfc块级格式化上下文">BFC（块级格式化上下文）</h2>
-<p>BFC 决定了块级元素如何对它的内容进行布局，以及与其他元素的关系和相互关系。BFC会让盒模型的渲染规则发生改变，并且创建一个新的环境与外界相隔。（将该盒模型作为一个独立的容器，容器里的子元素不会影响到外部元素）。<br>
-BFC 能解决 marigin 塌陷问题的原因就在这里，它可以改变一个块级元素内的渲染规则并与外界隔离，这样内部的块级子元素就不会收到外部的影响，就好像是在父级元素顶部加了一个“框”。</p>
-<h3 id="形成-bfc-的条件">形成 BFC 的条件</h3>
+<h2 id="块">块</h2>
 <ul>
-<li>元素浮动， float 除了 none 以外的值。</li>
-<li>元素绝对定位， absolute ｜ fixed。</li>
-<li>display 为 inline-block,table-cell,table-caption。</li>
-<li>overflow 除了 visible 以外的值。</li>
+<li>任何可以独立，复用而不依赖其他块的部分，都可以单独作为一个块。</li>
+<li>块可以嵌套其他块，来实现业务逻辑。</li>
+<li>例如 一个 from 表单，一个 header 头 都可以作为一个块，来为其单独命名。</li>
 </ul>
-<h2 id="解决方案这次是真的">解决方案（这次是真的）</h2>
+<h2 id="元素">元素</h2>
 <ul>
-<li>通过为父元素添加 border 属性： 这种解决方案并不合适，因为添加边框会改变 div 的布局，因此不太理想。</li>
-<li>通过触发父元素的 bfc 来改变父级元素的渲染规则，但在实际使用中，都会造成不同的麻烦，所以只能在实际开发过程中，根据需要来选择。</li>
-<li>通过将首个块级子元素改变其显示模式，来规避 margin 塌陷。</li>
+<li>元素是块的组成部分，对应块中的子元素/子节点。</li>
+<li>元素的命名必须声名其所属的块名称。例如 <code>.my-from__input</code></li>
+<li>块名与元素之间以 __  （双下划）线分割。</li>
+</ul>
+<h2 id="修饰符">修饰符</h2>
+<ul>
+<li>修饰符的意义在于让 块/元素拥有更丰富的外观或行为，来应对不同的情景。</li>
+<li>修饰符不可以单独使用，它的意义是为了丰富 块/元素。</li>
+<li>例如 buttom 按钮， 可以 为其定义 error 和 success 修饰符，分别为其定义属性，让其应对不同的情景。</li>
+</ul>
+<pre><code>&lt;template&gt;
+    &lt;form class=&quot;my-form&quot; id=&quot;test&quot;&gt;
+        &lt;input class=&quot;my-form__input&quot; type=&quot;text&quot; /&gt;
+        &lt;button class=&quot;my-form__button&quot;&gt;click me&lt;/button&gt;
+        &lt;button class=&quot;my-form__button--danger&quot;&gt;don't click me&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/template&gt;
+&lt;script&gt;
+    export default {
+
+    }
+&lt;/script&gt;
+
+&lt;style lang=&quot;css&quot; scoped&gt;
+    /* from 可以单独作为一个可以复用的组件，所以可以将其设置为一个单独的块 */
+    .my-form {
+        width: 500px;
+        height: 500px;
+    }
+
+    .my-form__input {
+        width: 100px;
+    }
+
+    .my-form__button {
+        background-color: aqua;
+    }
+
+     /* 修饰符让 块/元素 拥有更丰富的语意和情景 */
+    .my-form__button--danger {
+        background-color: red;
+    }
+
+    .my-form__button--danger {
+        background-color: red;
+    }
+&lt;/style&gt; 
+</code></pre>
+<h1 id="bem-的好处">BEM 的好处</h1>
+<ul>
+<li>通过 组件化/模块化 的思想，让整个项目的 CSS 拆分，从而解耦合。</li>
+<li>规范化的命名方式 <code>block__element--modifier</code> ,让整个 CSS 书写起来结构化更佳清晰，可读，灵活。</li>
+<li>命名方法扁平化，可以避免样式层级过多而导致解析效率变低。</li>
+</ul>
+<h1 id="bem-的坏处">BEM 的坏处</h1>
+<ul>
+<li>命名过长。</li>
+</ul>
+<h1 id="总结">总结</h1>
+<ul>
+<li>利远大于弊。</li>
 </ul>
 
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
-<li><a href="#%E8%B5%B7%E5%9B%A0">起因</a>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF-bem">什么是 BEM</a></li>
+<li><a href="#bem-%E7%9A%84%E6%9E%84%E6%88%90">BEM 的构成</a>
 <ul>
-<li><a href="#margin-%E5%A1%8C%E9%99%B7">margin 塌陷</a></li>
-<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">解决方案</a></li>
-<li><a href="#bfc%E5%9D%97%E7%BA%A7%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%B8%8A%E4%B8%8B%E6%96%87">BFC（块级格式化上下文）</a>
-<ul>
-<li><a href="#%E5%BD%A2%E6%88%90-bfc-%E7%9A%84%E6%9D%A1%E4%BB%B6">形成 BFC 的条件</a></li>
+<li><a href="#%E5%9D%97">块</a></li>
+<li><a href="#%E5%85%83%E7%B4%A0">元素</a></li>
+<li><a href="#%E4%BF%AE%E9%A5%B0%E7%AC%A6">修饰符</a></li>
 </ul>
 </li>
-<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E8%BF%99%E6%AC%A1%E6%98%AF%E7%9C%9F%E7%9A%84">解决方案（这次是真的）</a></li>
-</ul>
-</li>
+<li><a href="#bem-%E7%9A%84%E5%A5%BD%E5%A4%84">BEM 的好处</a></li>
+<li><a href="#bem-%E7%9A%84%E5%9D%8F%E5%A4%84">BEM 的坏处</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
 </ul>
 
               </div>
@@ -174,9 +211,9 @@ BFC 能解决 marigin 塌陷问题的原因就在这里，它可以改变一个�
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://superpony.github.io//post/xiang-dui-ding-wei">
+            <a href="https://superpony.github.io//post/si-kao-vue-zhong-computed-he-watch-de-qu-bie">
               <h3 class="post-title">
-                定位
+                思考 Vue 中 computed 和 watch 的区别
               </h3>
             </a>
           </div>
