@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-11-06T08:17:03.197Z</updated>
+    <updated>2019-11-06T08:18:58.461Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -18,7 +18,7 @@
         <updated>2019-11-06T07:08:07.000Z</updated>
         <content type="html"><![CDATA[<h1 id="什么是-bem">什么是 BEM</h1>
 <ul>
-<li>BEM 是俄罗斯团队 Yandex 团队提出的一种 CSS 命名方法，通过组件化/模块化的命名思想，让 CSS 的解构和命名语义更佳规范和透明，便于维护。</li>
+<li>BEM 是俄罗斯团队 Yandex 团队提出的一种 CSS 命名方法，通过组件化/模块化的命名思想，让 CSS 的结构和命名语义更佳规范和透明，便于维护。</li>
 </ul>
 <h1 id="bem-的构成">BEM 的构成</h1>
 <ul>
