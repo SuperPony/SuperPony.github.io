@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CSS 中的权重/优先级 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
-<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1573034477990">
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1573034882687">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
   integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -19,7 +19,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://superpony.github.io/">
-  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1573034477990" alt="">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1573034882687" alt="">
   </a>
   <h1 class="site-title">
     SuperPony&#39;s Blog
@@ -121,7 +121,7 @@
 答案是，红色的字，字体大小50px。<br>
 为什么会是这个结果，因为这就是 CSS 权重比较之后的结果，字体颜色是红色的，是因为行内式的权值是最高的，而字体大小是 50px 是因为，在所有选择器中，只有一个 关于字体大小的定义，所以它直接生效。</p>
 <h1 id="css-权值">CSS 权值</h1>
-<p>每一个CSS的选择器都有一个相对的重要程度值，也就是权重的值，简称权值。当多个选择器作用于一个元素上且多个选择器内有相同的属性时，那个选择的权值大，相同的属性最终就用谁的。</p>
+<p>每一个CSS的选择器都有一个相对的重要程度值，也就是权重的值，简称权值。当多个选择器作用于一个元素上且多个选择器内有相同的属性时，那个选择器的权值大，相同的属性最终就用谁的。</p>
 <h2 id="权值等级">权值等级</h2>
 <ul>
 <li>第一等级：行内样式， 例如 <code>&lt;input style=&quot;&quot; /&gt;</code> ,权值为 1，0，0，0</li>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-11-06T10:01:30.068Z</updated>
+    <updated>2019-11-06T10:08:04.054Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -43,7 +43,7 @@
 答案是，红色的字，字体大小50px。<br>
 为什么会是这个结果，因为这就是 CSS 权重比较之后的结果，字体颜色是红色的，是因为行内式的权值是最高的，而字体大小是 50px 是因为，在所有选择器中，只有一个 关于字体大小的定义，所以它直接生效。</p>
 <h1 id="css-权值">CSS 权值</h1>
-<p>每一个CSS的选择器都有一个相对的重要程度值，也就是权重的值，简称权值。当多个选择器作用于一个元素上且多个选择器内有相同的属性时，那个选择的权值大，相同的属性最终就用谁的。</p>
+<p>每一个CSS的选择器都有一个相对的重要程度值，也就是权重的值，简称权值。当多个选择器作用于一个元素上且多个选择器内有相同的属性时，那个选择器的权值大，相同的属性最终就用谁的。</p>
 <h2 id="权值等级">权值等级</h2>
 <ul>
 <li>第一等级：行内样式， 例如 <code>&lt;input style=&quot;&quot; /&gt;</code> ,权值为 1，0，0，0</li>
