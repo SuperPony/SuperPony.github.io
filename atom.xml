@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-11-06T08:10:56.312Z</updated>
+    <updated>2019-11-06T08:12:54.402Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -56,6 +56,7 @@
 <li>修饰符不可以单独使用，它的意义是为了丰富 块/元素。</li>
 <li>例如 buttom 按钮， 可以 为其定义 error 和 success 修饰符，分别为其定义属性，让其应对不同的情景。</li>
 </ul>
+<h2 id="示例">示例</h2>
 <pre><code>&lt;template&gt;
     &lt;form class=&quot;my-form&quot; id=&quot;test&quot;&gt;
         &lt;input class=&quot;my-form__input&quot; type=&quot;text&quot; /&gt;
