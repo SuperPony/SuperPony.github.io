@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-11-06T08:18:58.461Z</updated>
+    <updated>2019-11-06T08:45:10.093Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -10,6 +10,132 @@
     <logo>https://superpony.github.io//images/avatar.png</logo>
     <icon>https://superpony.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, SuperPony&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[CSS 规范标准]]></title>
+        <id>https://superpony.github.io//post/css-gui-fan-biao-zhun</id>
+        <link href="https://superpony.github.io//post/css-gui-fan-biao-zhun">
+        </link>
+        <updated>2019-11-06T08:27:27.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="代码风格">代码风格</h1>
+<ul>
+<li>采用 UTF-8 编码， 在 CSS 头部引用 @charset &quot;utf-8&quot;。</li>
+<li>以 4 个空格作为缩进。</li>
+<li>每行不超过 120 字符，除非单行不可分割。</li>
+<li>选择器嵌套层级不大于 3 级。</li>
+<li>尽量不要使用 @import，因为 与 <links> 相比， @import 速度更慢，增加了额外的页面请求，并可能导致无法预料的问题。</li>
+<li>Media Query不得单独编排，必须与相关的规则一起定义。</li>
+</ul>
+<h1 id="样式属性排序">样式属性排序</h1>
+<h2 id="布局位置">布局位置</h2>
+<p>display &gt; position &gt; top &gt; right &gt; bottom &gt; left &gt; z-index &gt; float &gt; clear &gt; vertical-align &gt; list-style &gt; content</p>
+<h2 id="自身属性">自身属性</h2>
+<p>width &gt; height &gt; padding &gt; border &gt; margin  &gt; background</p>
+<h2 id="文本属">文本属</h2>
+<p>font &gt; font-size &gt; font-weight &gt; font-family &gt; text-align &gt; text-decoration &gt; text-indent &gt; line-height</p>
+<p>white-space &gt; text-ellipsis</p>
+<h2 id="其他属性">其他属性</h2>
+<p>color &gt; background &gt; cursor &gt; zoom</p>
+<h2 id="css3属性">css3属性</h2>
+<p>box-sizing &gt; box-shadow &gt; border-radius &gt; transform &gt; transition</p>
+<h1 id="书写规范">书写规范</h1>
+<ul>
+<li>优先使用可以缩写的属性。</li>
+<li>取消小数点前的 0。</li>
+</ul>
+<pre><code>font-size: 0.5em; /*bad*/ 
+font-size: .5em; /*good*/ 
+</code></pre>
+<h1 id="命名规范">命名规范</h1>
+<p>头：header</p>
+<p>内容：content/container</p>
+<p>尾：footer</p>
+<p>导航：nav</p>
+<p>侧栏：sidebar</p>
+<p>栏目：column</p>
+<p>页面外围控制整体佈局宽度：wrapper</p>
+<p>左右中：left right center</p>
+<p>登录条：loginbar</p>
+<p>标志：logo</p>
+<p>广告：banner</p>
+<p>页面主体：main</p>
+<p>热点：hot</p>
+<p>新闻：news</p>
+<p>下载：download</p>
+<p>子导航：subnav</p>
+<p>菜单：menu</p>
+<p>子菜单：submenu</p>
+<p>搜索：search</p>
+<p>友情链接：friendlink</p>
+<p>页脚：footer</p>
+<p>版权：copyright</p>
+<p>滚动：scroll</p>
+<p>内容：content</p>
+<p>标签：tags</p>
+<p>文章列表：list</p>
+<p>提示信息：msg</p>
+<p>小技巧：tips</p>
+<p>栏目标题：title</p>
+<p>加入：joinus</p>
+<p>指南：guide</p>
+<p>服务：service</p>
+<p>注册：regsiter</p>
+<p>状态：status</p>
+<p>投票：vote</p>
+<p>合作伙伴：partner</p>
+<p>ID的命名-页面结构</p>
+<p>容器: container</p>
+<p>页头：header</p>
+<p>内容：content/container</p>
+<p>页面主体：main</p>
+<p>页尾：footer</p>
+<p>导航：nav</p>
+<p>侧栏：sidebar</p>
+<p>栏目：column</p>
+<p>页面外围控制整体佈局宽度：wrapper</p>
+<p>左右中：left right center</p>
+<p>ID的命名-导航</p>
+<p>导航：nav</p>
+<p>主导航：mainnav</p>
+<p>子导航：subnav</p>
+<p>顶导航：topnav</p>
+<p>边导航：sidebar</p>
+<p>左导航：leftsidebar</p>
+<p>右导航：rightsidebar</p>
+<p>菜单：menu</p>
+<p>子菜单：submenu</p>
+<p>标题: title</p>
+<p>摘要: summary</p>
+<p>ID的命名-功能</p>
+<p>标志：logo</p>
+<p>广告：banner</p>
+<p>登陆：login</p>
+<p>登录条：loginbar</p>
+<p>注册：register</p>
+<p>搜索：search</p>
+<p>功能区：shop</p>
+<p>标题：title</p>
+<p>加入：joinus</p>
+<p>状态：status</p>
+<p>按钮：btn</p>
+<p>滚动：scroll</p>
+<p>标签页：tab</p>
+<p>文章列表：list</p>
+<p>提示信息：msg</p>
+<p>当前的: current</p>
+<p>小技巧：tips</p>
+<p>图标: icon</p>
+<p>注释：note</p>
+<p>指南：guild</p>
+<p>服务：service</p>
+<p>热点：hot</p>
+<p>新闻：news</p>
+<p>下载：download</p>
+<p>投票：vote</p>
+<p>合作伙伴：partner</p>
+<p>友情链接：link</p>
+<p>版权：copyright</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[BEM]]></title>
         <id>https://superpony.github.io//post/bem</id>

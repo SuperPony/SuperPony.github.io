@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>记一次 margin 塌陷的坑 | SuperPony&#39;s Blog</title>
+<title>CSS 规范标准 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
 <link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1573029908057">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
@@ -76,11 +76,11 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              记一次 margin 塌陷的坑
+              CSS 规范标准
             </h2>
             <div class="post-info">
               <span>
-                2019-11-04
+                2019-11-06
               </span>
               <span>
                 3 min read
@@ -94,76 +94,140 @@
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <h1 id="起因">起因</h1>
-<p>由于本人 CSS 十分的菜，所以闲暇之余，便借机会重新温习下 CSS 的知识，在练习着写一些页面样式的时候，需要用到 margin-top 属性，然后问题发生了。</p>
-<p>测试代码如下：</p>
-<pre><code> &lt;style&gt;
-      .app {
-          height: 500px;
-          width: 500px;
-          background-color: blue;
-      }
-
-      #demo {
-          height: 100px;
-          width: 100px;
-          background-color: green;
-          margin-top:10%;
-      }
-
-      #demo2 {
-          height: 100px;
-          width: 100px;
-          background-color: red;
-      }
-  &lt;/style&gt;
-   &lt;div class=&quot;app&quot;&gt;
-      &lt;div id=&quot;demo&quot;&gt;&lt;/div&gt;
-      &lt;div id=&quot;demo2&quot;&gt;&lt;/div&gt;
-  &lt;/div&gt;
+                <h1 id="代码风格">代码风格</h1>
+<ul>
+<li>采用 UTF-8 编码， 在 CSS 头部引用 @charset &quot;utf-8&quot;。</li>
+<li>以 4 个空格作为缩进。</li>
+<li>每行不超过 120 字符，除非单行不可分割。</li>
+<li>选择器嵌套层级不大于 3 级。</li>
+<li>尽量不要使用 @import，因为 与 <links> 相比， @import 速度更慢，增加了额外的页面请求，并可能导致无法预料的问题。</li>
+<li>Media Query不得单独编排，必须与相关的规则一起定义。</li>
+</ul>
+<h1 id="样式属性排序">样式属性排序</h1>
+<h2 id="布局位置">布局位置</h2>
+<p>display &gt; position &gt; top &gt; right &gt; bottom &gt; left &gt; z-index &gt; float &gt; clear &gt; vertical-align &gt; list-style &gt; content</p>
+<h2 id="自身属性">自身属性</h2>
+<p>width &gt; height &gt; padding &gt; border &gt; margin  &gt; background</p>
+<h2 id="文本属">文本属</h2>
+<p>font &gt; font-size &gt; font-weight &gt; font-family &gt; text-align &gt; text-decoration &gt; text-indent &gt; line-height</p>
+<p>white-space &gt; text-ellipsis</p>
+<h2 id="其他属性">其他属性</h2>
+<p>color &gt; background &gt; cursor &gt; zoom</p>
+<h2 id="css3属性">css3属性</h2>
+<p>box-sizing &gt; box-shadow &gt; border-radius &gt; transform &gt; transition</p>
+<h1 id="书写规范">书写规范</h1>
+<ul>
+<li>优先使用可以缩写的属性。</li>
+<li>取消小数点前的 0。</li>
+</ul>
+<pre><code>font-size: 0.5em; /*bad*/ 
+font-size: .5em; /*good*/ 
 </code></pre>
-<p>实际效果：<br>
-<img src="https://superpony.github.io//post-images/1572837073689.png" alt=""></p>
-<p>什么鬼？？？讲道理不因该是绿色的往下偏移吗？（心里一万只草泥马呼啸而过），但本着东西做不出来，一定是技师水平不到位的原则，百度一下吧！🙄</p>
-<p>百度一下后，发现了一个名叫 margin 塌陷的经典问题。</p>
-<h2 id="margin-塌陷">margin 塌陷</h2>
-<ul>
-<li>指 嵌套级的父子块级元素，<strong>首个</strong>块级子元素与父元素的 marigin-top 属性是结合在一起的，并取其最大的值。(why???),当给该子元素设置 margin-top 时，会连带着父级元素一下往下移动。</li>
-</ul>
-<h2 id="解决方案">解决方案</h2>
-<p>需要先了解一个重要概念， <strong>BFC</strong>。</p>
-<h2 id="bfc块级格式化上下文">BFC（块级格式化上下文）</h2>
-<p>BFC 决定了块级元素如何对它的内容进行布局，以及与其他元素的关系和相互关系。BFC会让盒模型的渲染规则发生改变，并且创建一个新的环境与外界相隔。（将该盒模型作为一个独立的容器，容器里的子元素不会影响到外部元素）。<br>
-BFC 能解决 marigin 塌陷问题的原因就在这里，它可以改变一个块级元素内的渲染规则并与外界隔离，这样内部的块级子元素就不会收到外部的影响，就好像是在父级元素顶部加了一个“框”。</p>
-<h3 id="形成-bfc-的条件">形成 BFC 的条件</h3>
-<ul>
-<li>元素浮动， float 除了 none 以外的值。</li>
-<li>元素绝对定位， absolute ｜ fixed。</li>
-<li>display 为 inline-block,table-cell,table-caption。</li>
-<li>overflow 除了 visible 以外的值。</li>
-</ul>
-<h2 id="解决方案这次是真的">解决方案（这次是真的）</h2>
-<ul>
-<li>通过为父元素添加 border 属性： 这种解决方案并不合适，因为添加边框会改变 div 的布局，因此不太理想。</li>
-<li>通过触发父元素的 bfc 来改变父级元素的渲染规则，但在实际使用中，都会造成不同的麻烦，所以只能在实际开发过程中，根据需要来选择。</li>
-<li>通过将首个块级子元素改变其显示模式，来规避 margin 塌陷。</li>
-</ul>
+<h1 id="命名规范">命名规范</h1>
+<p>头：header</p>
+<p>内容：content/container</p>
+<p>尾：footer</p>
+<p>导航：nav</p>
+<p>侧栏：sidebar</p>
+<p>栏目：column</p>
+<p>页面外围控制整体佈局宽度：wrapper</p>
+<p>左右中：left right center</p>
+<p>登录条：loginbar</p>
+<p>标志：logo</p>
+<p>广告：banner</p>
+<p>页面主体：main</p>
+<p>热点：hot</p>
+<p>新闻：news</p>
+<p>下载：download</p>
+<p>子导航：subnav</p>
+<p>菜单：menu</p>
+<p>子菜单：submenu</p>
+<p>搜索：search</p>
+<p>友情链接：friendlink</p>
+<p>页脚：footer</p>
+<p>版权：copyright</p>
+<p>滚动：scroll</p>
+<p>内容：content</p>
+<p>标签：tags</p>
+<p>文章列表：list</p>
+<p>提示信息：msg</p>
+<p>小技巧：tips</p>
+<p>栏目标题：title</p>
+<p>加入：joinus</p>
+<p>指南：guide</p>
+<p>服务：service</p>
+<p>注册：regsiter</p>
+<p>状态：status</p>
+<p>投票：vote</p>
+<p>合作伙伴：partner</p>
+<p>ID的命名-页面结构</p>
+<p>容器: container</p>
+<p>页头：header</p>
+<p>内容：content/container</p>
+<p>页面主体：main</p>
+<p>页尾：footer</p>
+<p>导航：nav</p>
+<p>侧栏：sidebar</p>
+<p>栏目：column</p>
+<p>页面外围控制整体佈局宽度：wrapper</p>
+<p>左右中：left right center</p>
+<p>ID的命名-导航</p>
+<p>导航：nav</p>
+<p>主导航：mainnav</p>
+<p>子导航：subnav</p>
+<p>顶导航：topnav</p>
+<p>边导航：sidebar</p>
+<p>左导航：leftsidebar</p>
+<p>右导航：rightsidebar</p>
+<p>菜单：menu</p>
+<p>子菜单：submenu</p>
+<p>标题: title</p>
+<p>摘要: summary</p>
+<p>ID的命名-功能</p>
+<p>标志：logo</p>
+<p>广告：banner</p>
+<p>登陆：login</p>
+<p>登录条：loginbar</p>
+<p>注册：register</p>
+<p>搜索：search</p>
+<p>功能区：shop</p>
+<p>标题：title</p>
+<p>加入：joinus</p>
+<p>状态：status</p>
+<p>按钮：btn</p>
+<p>滚动：scroll</p>
+<p>标签页：tab</p>
+<p>文章列表：list</p>
+<p>提示信息：msg</p>
+<p>当前的: current</p>
+<p>小技巧：tips</p>
+<p>图标: icon</p>
+<p>注释：note</p>
+<p>指南：guild</p>
+<p>服务：service</p>
+<p>热点：hot</p>
+<p>新闻：news</p>
+<p>下载：download</p>
+<p>投票：vote</p>
+<p>合作伙伴：partner</p>
+<p>友情链接：link</p>
+<p>版权：copyright</p>
 
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
-<li><a href="#%E8%B5%B7%E5%9B%A0">起因</a>
+<li><a href="#%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC">代码风格</a></li>
+<li><a href="#%E6%A0%B7%E5%BC%8F%E5%B1%9E%E6%80%A7%E6%8E%92%E5%BA%8F">样式属性排序</a>
 <ul>
-<li><a href="#margin-%E5%A1%8C%E9%99%B7">margin 塌陷</a></li>
-<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">解决方案</a></li>
-<li><a href="#bfc%E5%9D%97%E7%BA%A7%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%B8%8A%E4%B8%8B%E6%96%87">BFC（块级格式化上下文）</a>
-<ul>
-<li><a href="#%E5%BD%A2%E6%88%90-bfc-%E7%9A%84%E6%9D%A1%E4%BB%B6">形成 BFC 的条件</a></li>
+<li><a href="#%E5%B8%83%E5%B1%80%E4%BD%8D%E7%BD%AE">布局位置</a></li>
+<li><a href="#%E8%87%AA%E8%BA%AB%E5%B1%9E%E6%80%A7">自身属性</a></li>
+<li><a href="#%E6%96%87%E6%9C%AC%E5%B1%9E">文本属</a></li>
+<li><a href="#%E5%85%B6%E4%BB%96%E5%B1%9E%E6%80%A7">其他属性</a></li>
+<li><a href="#css3%E5%B1%9E%E6%80%A7">css3属性</a></li>
 </ul>
 </li>
-<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E8%BF%99%E6%AC%A1%E6%98%AF%E7%9C%9F%E7%9A%84">解决方案（这次是真的）</a></li>
-</ul>
-</li>
+<li><a href="#%E4%B9%A6%E5%86%99%E8%A7%84%E8%8C%83">书写规范</a></li>
+<li><a href="#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83">命名规范</a></li>
 </ul>
 
               </div>
@@ -174,9 +238,9 @@ BFC 能解决 marigin 塌陷问题的原因就在这里，它可以改变一个�
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://superpony.github.io//post/xiang-dui-ding-wei">
+            <a href="https://superpony.github.io//post/bem">
               <h3 class="post-title">
-                定位
+                BEM
               </h3>
             </a>
           </div>
