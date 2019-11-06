@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-11-05T13:12:34.104Z</updated>
+    <updated>2019-11-06T00:22:44.869Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -10,23 +10,6 @@
     <logo>https://superpony.github.io//images/avatar.png</logo>
     <icon>https://superpony.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, SuperPony&apos;s Blog</rights>
-    <entry>
-        <title type="html"><![CDATA[思考 Vue 中 computed 和 watch 的区别]]></title>
-        <id>https://superpony.github.io//post/si-kao-vue-zhong-computed-he-watch-de-qu-bie</id>
-        <link href="https://superpony.github.io//post/si-kao-vue-zhong-computed-he-watch-de-qu-bie">
-        </link>
-        <updated>2019-11-05T10:03:52.000Z</updated>
-        <content type="html"><![CDATA[<p>由于本人比较笨，理解能力也不太好，所以在学习和使用 Vue 里的 computed 和 watch 的时候，遇到了一个问题，就是 这俩玩意有啥区别？<br>
-于是乎，查文档带百度吧！😤<br>
-百度之后发现了一篇讲的个人觉着很生动和形象的 <a href="https://blog.csdn.net/mystric594/article/details/77849361">文章</a>。 当然，本着要（字）把（数）知（太）识（少）转（实）为（在）自（糊）己（弄）的（不）理（过）解（去）和（的）语（心）言（情）的（🌝）原则，还是将自己看过后的理解，写出来吧！</p>
-<h1 id="computed">computed</h1>
-<p>computed 适用于：一个属性的变化 依赖一个或多个属性的变化；打个比喻，它就像个没有主见的人，别人一动或者一变化，它就跟着变动。</p>
-<h1 id="watch">watch</h1>
-<p>watch 适用于：当一个属性变化时，去改变其他的属性（当然这个取决于具体业务逻辑）；它就像个很强势的人，当它变了，就会要求其他人也变动。</p>
-<p>PS.同时触发了 watch 和 computed 时，计算属性先触发。</p>
-<p>再次PS.实在是写（编）不动了，如果假以时日，有哪位大佬看到这边文章了，请指出不足之处，万分感激！🙏</p>
-]]></content>
-    </entry>
     <entry>
         <title type="html"><![CDATA[记一次 margin 塌陷的坑]]></title>
         <id>https://superpony.github.io//post/ji-yi-ci-margin-top-de-keng</id>
