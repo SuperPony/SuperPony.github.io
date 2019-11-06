@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-11-06T09:57:25.406Z</updated>
+    <updated>2019-11-06T09:58:54.528Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -46,7 +46,7 @@
 <p>每一个CSS的选择器都有一个相对的重要程度值，也就是权重的值，简称权值。当多个选择器作用于一个元素上且多个选择器内有相同的属性时，那个选择的权值大，相同的属性最终就用谁的。</p>
 <h2 id="权值等级">权值等级</h2>
 <ul>
-<li>第一等级：行内样式， 例如 <input style="" /> ,权值为 1，0，0，0</li>
+<li>第一等级：行内样式， 例如 <code>&lt;input style=&quot;&quot; /&gt;</code> ,权值为 1，0，0，0</li>
 <li>第二等级：ID 选择器，权值 0，1，0，0</li>
 <li>第三等级：class，伪类，属性选择器，权值0，0，1，0</li>
 <li>第四等级：元素选择器，伪元素选择器，权值 0，0，0，1</li>
