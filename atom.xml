@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-11-06T08:13:19.634Z</updated>
+    <updated>2019-11-06T08:14:28.035Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -58,7 +58,7 @@
 </ul>
 <h2 id="示例">示例</h2>
 <pre><code>&lt;template&gt;
-    &lt;form class=&quot;my-form&quot; id=&quot;test&quot;&gt;
+    &lt;form class=&quot;my-form&quot;&gt;
         &lt;input class=&quot;my-form__input&quot; type=&quot;text&quot; /&gt;
         &lt;button class=&quot;my-form__button&quot;&gt;click me&lt;/button&gt;
         &lt;button class=&quot;my-form__button--danger&quot;&gt;don't click me&lt;/button&gt;
