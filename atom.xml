@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-11-07T11:25:32.361Z</updated>
+    <updated>2019-11-07T11:27:03.402Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -20,8 +20,10 @@
 <p>写这篇文章的原因是，最近这两天在学习 极客时间 上面程劭非老师的 <strong><a href="https://time.geekbang.org/column/intro/100023201">重学前端</a></strong> 课程，在读完第一章的 明确前端学习路线与方法 后，觉着写的很好，在尝试去理解之后，觉着不仅可以用于在前端的学习之上，在学习其他的编程语言上，也完全适用，于是就想着写点东西，一篇参杂着我个人理解的笔记。</p>
 <p>在刚学习 至 1年内相关工作经验的时候，因该把侧重点放在基础知识上，地基打得牢，楼才建的高。这一年也是最关键的一年，因为这一年的学习，正是构架自己 <strong>知识架构</strong> 的黄金时期。</p>
 <h1 id="学习的两种方法">学习的两种方法</h1>
-<p>1.构建自己的知识架构。<br>
-2.追本溯源。</p>
+<ol>
+<li>构建自己的知识架构。</li>
+<li>追本溯源。</li>
+</ol>
 <h1 id="什么是知识架构">什么是知识架构</h1>
 <p>知识架构可以理解为你自己 知识的目录或索引，它可以把我们的知识，或是那些零散的<strong>知识组织串联起来</strong>，同时也可以帮助我们发现自己的知识盲区，不足之处。<br>
 注意：知识架构是有优劣之分的，而区分优劣最重要的评判标准就是，你的知识架构，它的<strong>逻辑性和完备性如何</strong>。</p>
