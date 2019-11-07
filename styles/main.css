@@ -984,3 +984,7 @@ td {
         font-family: Georgia, serif;
       }
     
+      p {
+    text-indent: 2em;
+}
+    
