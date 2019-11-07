@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CSS 中的权重/优先级 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
-<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1573091799345">
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1573091928873">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
   integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -19,7 +19,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://superpony.github.io/">
-  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1573091799345" alt="">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1573091928873" alt="">
   </a>
   <h1 class="site-title">
     SuperPony&#39;s Blog
@@ -170,7 +170,7 @@
     }
 &lt;/style&gt;
 </code></pre>
-<p>上面的代码，如果按照 等级*各自选择器个数再求和 的公式来计算，第一个选择器的权值为：1000*0+100*0+10*11+0*0 = 110。  第二个选择器权值为 1000*0+100*1+10*0+0*0 = 100。 则最终 实际渲染结果为 蓝色的字，50px大小。<br>
+<p>上面的代码，如果按照 等级*各自选择器个数再求和 的公式来计算，第一个选择器的权值为：1000*0+100*0+10*11+1*0 = 110。  第二个选择器权值为 1000*0+100*1+10*0+1*0 = 100。 则最终 实际渲染结果为 蓝色的字，50px大小。<br>
 但最终结果却是， 红色的字 50px 大小。因为，低等级的选择器，无论个数再多，也是无法越等级的。则实际计算结果因该是 第一个选择器权值： 0，0，11，0 。 第二个选择器权值 0，1，0，0 。</p>
 
               </div>
