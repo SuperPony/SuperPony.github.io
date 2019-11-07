@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-11-07T01:25:36.219Z</updated>
+    <updated>2019-11-07T01:49:50.142Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -53,17 +53,17 @@
 <li>第五等级：通配符选择器，子选择器，相邻兄弟 等选择器 权值 0，0，0，0</li>
 </ul>
 <h2 id="权值计算公式">权值计算公式</h2>
-<p>权值 = 第一等级选择器*个数 + 第二等级选择器*个数 + 第三等级选择器*个数 +第四等级选择器*个数；</p>
-<h2 id="优先级总结">优先级总结</h2>
+<p>权值 = 第一等级选择器*个数,第二等级选择器*个数,第三等级选择器*个数,第四等级选择器*个数；</p>
+<h1 id="优先级总结">优先级总结</h1>
 <ul>
+<li>先进行高等级比较，如果相同，再比较下一等级，以此类推。</li>
 <li>如果权值完全相同的话，采用 后者优先的原则（样式覆盖）。</li>
 <li>CSS 属性后如果追加 !important  时，无条件绝对优先。</li>
 </ul>
-<h1 id="例子">例子</h1>
+<h1 id="注意">注意</h1>
+<p>网上有一些关于权值计算的文章中，会出现把权值的计算理解为 权值 = 第一等级选择器 * 个数 + 第二等级选择器 * 个数 + 第三等级选择器 * 个数 + 第四等级选择器*个数； 也就是说把权值的计算理解为了 等级*各自个数再求和。举个例子：</p>
 <pre><code>&lt;template&gt;
-    &lt;div id=&quot;demo&quot;&gt;
-        &lt;div class=&quot;a b c d e f g h i j k&quot;&gt; i'm man &lt;/div&gt;
-    &lt;/div&gt;
+    &lt;div id=&quot;demo&quot; class=&quot;a b c d e f g h i j k&quot;&gt; i'm a man &lt;/div&gt;
 &lt;/template&gt;
 &lt;script&gt;
     export default {
@@ -83,16 +83,17 @@
     .i,
     .j,
     .k {
+        font-size: 50px;
         color: blue;
     }
 
     #demo {
-        font-size: 50px;
         color: red;
     }
 &lt;/style&gt;
 </code></pre>
-<p>上面代码里， 最终结果， 蓝色的字，50xp 大小。因为第一个选择器 权重 110,第二个权重 100 ，所以 color 为蓝色，字号 50px。</p>
+<p>上面的代码，如果按照 等级<em>各自选择器个数再求和 的公式来计算，第一个选择器的权值为：1000</em>0+100<em>0+10</em>11+0<em>0 = 110。  第二个选择器权值为 1000</em>0+100<em>1+10</em>0+0*0 = 100。 则最终 实际渲染结果为 蓝色的字，50px大小。<br>
+但最终结果却是， 红色的字 50px 大小。因为，低等级的选择器，无论个数再多，也是无法越等级的。则实际计算结果因该是 第一个选择器权值： 0，0，11，0 。 第二个选择器权值 0，1，0，0 。</p>
 ]]></content>
     </entry>
     <entry>

@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CSS 中的权重/优先级 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
-<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1573089913405">
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1573091388178">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
   integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -19,7 +19,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://superpony.github.io/">
-  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1573089913405" alt="">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1573091388178" alt="">
   </a>
   <h1 class="site-title">
     SuperPony&#39;s Blog
@@ -83,7 +83,7 @@
                 2019-11-06
               </span>
               <span>
-                3 min read
+                4 min read
               </span>
               
                 <a href="https://superpony.github.io//tag/xPWbMDg0W" class="post-tag">
@@ -131,17 +131,17 @@
 <li>第五等级：通配符选择器，子选择器，相邻兄弟 等选择器 权值 0，0，0，0</li>
 </ul>
 <h2 id="权值计算公式">权值计算公式</h2>
-<p>权值 = 第一等级选择器*个数 + 第二等级选择器*个数 + 第三等级选择器*个数 +第四等级选择器*个数；</p>
-<h2 id="优先级总结">优先级总结</h2>
+<p>权值 = 第一等级选择器*个数,第二等级选择器*个数,第三等级选择器*个数,第四等级选择器*个数；</p>
+<h1 id="优先级总结">优先级总结</h1>
 <ul>
+<li>先进行高等级比较，如果相同，再比较下一等级，以此类推。</li>
 <li>如果权值完全相同的话，采用 后者优先的原则（样式覆盖）。</li>
 <li>CSS 属性后如果追加 !important  时，无条件绝对优先。</li>
 </ul>
-<h1 id="例子">例子</h1>
+<h1 id="注意">注意</h1>
+<p>网上有一些关于权值计算的文章中，会出现把权值的计算理解为 权值 = 第一等级选择器 * 个数 + 第二等级选择器 * 个数 + 第三等级选择器 * 个数 + 第四等级选择器*个数； 也就是说把权值的计算理解为了 等级*各自个数再求和。举个例子：</p>
 <pre><code>&lt;template&gt;
-    &lt;div id=&quot;demo&quot;&gt;
-        &lt;div class=&quot;a b c d e f g h i j k&quot;&gt; i'm man &lt;/div&gt;
-    &lt;/div&gt;
+    &lt;div id=&quot;demo&quot; class=&quot;a b c d e f g h i j k&quot;&gt; i'm a man &lt;/div&gt;
 &lt;/template&gt;
 &lt;script&gt;
     export default {
@@ -161,16 +161,17 @@
     .i,
     .j,
     .k {
+        font-size: 50px;
         color: blue;
     }
 
     #demo {
-        font-size: 50px;
         color: red;
     }
 &lt;/style&gt;
 </code></pre>
-<p>上面代码里， 最终结果， 蓝色的字，50xp 大小。因为第一个选择器 权重 110,第二个权重 100 ，所以 color 为蓝色，字号 50px。</p>
+<p>上面的代码，如果按照 等级<em>各自选择器个数再求和 的公式来计算，第一个选择器的权值为：1000</em>0+100<em>0+10</em>11+0<em>0 = 110。  第二个选择器权值为 1000</em>0+100<em>1+10</em>0+0*0 = 100。 则最终 实际渲染结果为 蓝色的字，50px大小。<br>
+但最终结果却是， 红色的字 50px 大小。因为，低等级的选择器，无论个数再多，也是无法越等级的。则实际计算结果因该是 第一个选择器权值： 0，0，11，0 。 第二个选择器权值 0，1，0，0 。</p>
 
               </div>
               <div class="toc-container">
@@ -180,10 +181,10 @@
 <ul>
 <li><a href="#%E6%9D%83%E5%80%BC%E7%AD%89%E7%BA%A7">权值等级</a></li>
 <li><a href="#%E6%9D%83%E5%80%BC%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F">权值计算公式</a></li>
-<li><a href="#%E4%BC%98%E5%85%88%E7%BA%A7%E6%80%BB%E7%BB%93">优先级总结</a></li>
 </ul>
 </li>
-<li><a href="#%E4%BE%8B%E5%AD%90">例子</a></li>
+<li><a href="#%E4%BC%98%E5%85%88%E7%BA%A7%E6%80%BB%E7%BB%93">优先级总结</a></li>
+<li><a href="#%E6%B3%A8%E6%84%8F">注意</a></li>
 </ul>
 
               </div>
