@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-11-07T11:37:59.685Z</updated>
+    <updated>2019-11-08T03:39:54.087Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -10,6 +10,40 @@
     <logo>https://superpony.github.io//images/avatar.png</logo>
     <icon>https://superpony.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, SuperPony&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[JS 中 undefined 到底是个啥]]></title>
+        <id>https://superpony.github.io//post/js-zhong-undefined-dao-di-shi-ge-sha</id>
+        <link href="https://superpony.github.io//post/js-zhong-undefined-dao-di-shi-ge-sha">
+        </link>
+        <updated>2019-11-08T02:47:21.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="前言">前言</h1>
+<p>很多经典的 JS 教程中，都会讲 undefined 和 null的区别， undefined 表示 &quot;尚未定义&quot;，而 null 则代表着 “定义了但是为空”。 而在一些 JS 规范中，经常会提到，用 void 0 来获取 undefined 值 而不是直接 获取 undefined 的值。<br>
+于是问题就来了， undefined 和 null 的区别仅仅在于二者的字面含义不同吗，而为什么 在一些 JS 规范中，要求 void 0 代替 直接使用 undefined，只是为了节省3个字节吗？</p>
+<h1 id="undefined-是一个变量">undefined 是一个变量</h1>
+<p>区别在于， null 是 JS 中的关键字，而 undefined 却是一个变量，这也是 JS 这门语言公认的设计失误之一。在 ES5之前，全局下的 undefined 是可写的，而之所以用 void 0 来取 undefined 值，就是为了防止 某些极端情况下， undefeined 被重写。</p>
+<p>注意： ES5开始， undefeined 在全局环境下虽然不可写了，但是，在局部环境，仍然可以重新声明且可写。</p>
+<p>参考:<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">MDN</a></p>
+<p>测试代码：</p>
+<pre><code>    var undefined = &quot;hi&quot;;
+    console.log(undefined); //  输出 undefined
+
+    // undefine 是变量，所以可以赋值。
+    function testUndefined() {
+        var undefined = &quot;i'm undefined&quot;;
+        console.log(undefined); // 输出 i'm undefined
+    }
+
+    // 报错， null 是关键字
+    // function testNull() {
+    //     var null = &quot;i'm null&quot;;
+    //     console.log(null);
+    // }
+    
+    testUndefined();
+    //testNull();
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[关于技术方面的学习方法和路线]]></title>
         <id>https://superpony.github.io//post/guan-yu-ji-zhu-fang-mian-de-xue-xi-fang-fa-he-lu-xian</id>
