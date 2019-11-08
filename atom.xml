@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-11-08T03:49:32.299Z</updated>
+    <updated>2019-11-08T03:53:45.233Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -230,7 +230,7 @@
 <pre><code>font-size: 0.5em; /*bad*/ 
 font-size: .5em; /*good*/ 
 </code></pre>
-<h1 id="命名规范">命名规范</h1>
+<h1 id="命名单词">命名单词</h1>
 <p>头：header</p>
 <p>内容：content/container</p>
 <p>尾：footer</p>
