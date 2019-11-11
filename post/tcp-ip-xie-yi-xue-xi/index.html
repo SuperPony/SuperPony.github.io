@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>TCP / IP 协议 流程 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
-<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1573439108761">
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1573439228747">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
   integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -19,7 +19,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://superpony.github.io/">
-  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1573439108761" alt="">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1573439228747" alt="">
   </a>
   <h1 class="site-title">
     SuperPony&#39;s Blog
@@ -118,7 +118,7 @@
 <figure data-type="image" tabindex="2"><img src="https://superpony.github.io//post-images/1573288241945.png" alt=""></figure>
 <ol>
 <li>① 应用程序处理首先应用程序会进行编码处理，这些编码相当于 OSI 的表示层功能；编码转化后，数据不一定马上被发送出去，这种何时建立通信连接何时发送数据的管理功能，相当于 OSI 的会话层功能。</li>
-<li>② TCP 模块的处理TCP 根据应用的指示，负责建立连接、发送数据以及断开连接。TCP 提供将应用层发来的数据顺利发送至对端的可靠传输。为了实现这一功能，需要在应用层数据的前端附加一个 TCP 首部。</li>
+<li>② TCP 模块的处理TCP 根据应用的指示，负责建立连接、发送数据以及断开连接。TCP 提供将应用层发来的数据顺利发送至对端的可靠传输。为了实现这一功能，需要在数据的前端附加一个 TCP 首部。</li>
 <li>③ IP 模块的处理IP 将 TCP 传过来的 TCP 首部和 TCP 数据合起来当做自己的数据，并在 TCP 首部的前端加上自己的 IP 首部。IP 包生成后，参考路由控制表决定接受此 IP 包的路由或主机。</li>
 <li>④ 网络接口（以太网驱动）的处理从 IP 传过来的 IP 包对于以太网来说就是数据。给这些数据附加上以太网首部并进行发送处理，生成的以太网数据包将通过物理层传输给接收端。</li>
 <li>⑤ 网络接口（以太网驱动）的处理主机收到以太网包后，首先从以太网包首部找到 MAC 地址判断是否为发送给自己的包，若不是则丢弃数据。如果是发送给自己的包，则从以太网包首部中的类型确定数据类型，再传给相应的模块，如 IP、ARP 等。这里的例子则是 IP 。</li>
