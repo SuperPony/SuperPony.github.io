@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>TCP / IP 协议 流程 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
-<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1573439228747">
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1575379097936">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
   integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -19,7 +19,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://superpony.github.io/">
-  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1573439228747" alt="">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1575379097936" alt="">
   </a>
   <h1 class="site-title">
     SuperPony&#39;s Blog
@@ -153,7 +153,7 @@
 <p>即地址解析协议，是根据 IP 获取 MAC 地址的一个网络协议，工作原理如下：</p>
 <p>ARP 首先会发起一个请求数据包，该数据包的首部包含了目标主机的 IP ，然后这个数据包在链路层进行再次包装，生成以<strong>太网数据包</strong>，最终由以太网广播给子网内的所有主机，每台目标子网内的主机都会接收到这个数据包，并取出来头部的 IP 地址，然后和自己的 IP 进行比较，如果相同就返回自己的 MAC 地址，如果不同就丢弃该数据包。 ARP 接收返回的消息，以此确定目标机的 MAC 地址。与此同时， ARP 还会将 返回的 MAC 地址与对应的 IP 地址存入本机的  ARP 缓存中一段时间，下次请求直接调取缓存来节约资源，也就是 <strong>RARP 协议</strong>。</p>
 <h2 id="路由协议">路由协议</h2>
-<p>网络层会首先通过 IP 协议来判断两台主机是否同处于一个子网内，如果是，就直接通过 ARP 协议在子网内通过广播的形式，发送数据包查询对应的目标机 MAC 地址。如果不是，则以太网会将该数据包转发给本子网的网关进行路由，网关是互联网上子网与子网的桥梁，所以网关会进行多次转发，最终将数据包转发到 目标 IP 的子网中，然后再通过目标 IP 的 ARP 获取目标机的 MAC 地址。</p>
+<p>网络层会首先通过 IP 协议来判断两台主机是否同处于一个子网内，如果是，就直接通过 ARP 协议在子网内通过广播的形式，发送数据包查询对应的目标机 MAC 地址。如果不是，则以太网会将该数据包转发给本子网的网关进行路由，网关是互联网上子网与子网的桥梁，所以网关会进行多次转发，最终将数据包转发到 目标 IP 的子网中，然后再通过目标 IP 的网关进行 ARP 协议的广播获取目标机的 MAC 地址。</p>
 <p>而完成这个路由协议的物理设备就是路由器，在错综复杂的网络世界里，路由器扮演者交通枢纽的角色，它会根据信道情况，选择并设定路由，以最佳路径来转发数据包</p>
 <h2 id="ip-数据包">IP 数据包</h2>
 <p>IP 数据包由 首部和数据两部分组成，首部主要包含了目标 IP 和源 IP。</p>
