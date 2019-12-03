@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2019-12-03T13:18:26.068Z</updated>
+    <updated>2019-12-03T13:24:09.581Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io//atom.xml"/>
@@ -46,7 +46,7 @@
 <ul>
 <li>全局环境下 使用 this， this 的指向是 window 对象。</li>
 <li>构造函数中使用 this ， this 的指向是 实例对象。</li>
-<li>对象的方法中使用 this，this 的指向就是方法运行时，所在的对象，这一点也是最难把握的。</li>
+<li>对象的方法中使用 this，this 的指向就是方法运行时所在的对象，这一点也是最难把握的。</li>
 </ul>
 <h2 id="对象方法中使用-this">对象方法中使用 this</h2>
 <pre><code>    var a = {
