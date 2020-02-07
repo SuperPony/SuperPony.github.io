@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2020-02-07T14:45:30.045Z</updated>
+    <updated>2020-02-07T14:49:11.023Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io/atom.xml"/>
@@ -163,7 +163,7 @@ func main() {
 	fmt.Println(f4()) // 5
 }
 </code></pre>
-<p>在日常开发中， defer 通常是用来做一些收尾工作的事情，例如 文件句柄关闭。上述的例子几乎不太可能出现在实际的日常开发中。但是，这几个例子对于理解 return、defer 的底层执行步骤是有很大帮助的。</p>
+<p>在日常开发中， defer 通常是用来做一些收尾工作的事情，例如 文件句柄关闭。所以上述的例子几乎不太可能出现在实际的日常开发中。但是，这几个例子对于理解 return、defer 的底层执行步骤是有很大帮助的。</p>
 <h1 id="return-和-defer-运行机制">return 和 defer 运行机制</h1>
 <h2 id="return">return</h2>
 <p><strong>return 并不是一个具有原子性的操作。</strong> 在一个函数 return 的时候，例如 return x ，其实底层是执行了两个步骤：</p>
@@ -192,7 +192,7 @@ func main() {
 	return x // 1. return 已经将 x 赋予实际返回值
 }
 
-func f2() (x int) { // 声明返回值变量
+func f2() (x int) { // 命名返回值
 	x = 5
 	defer func() {
 		x++ // 操作的是返回值的变量，所以最终返回值是 6

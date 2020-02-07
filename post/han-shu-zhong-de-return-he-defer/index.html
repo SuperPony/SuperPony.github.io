@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>return 和 defer 的底层运行步骤 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
-<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1581086691082">
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1581086948890">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
   integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -19,7 +19,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://superpony.github.io/">
-  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1581086691082" alt="">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1581086948890" alt="">
   </a>
   <h1 class="site-title">
     SuperPony&#39;s Blog
@@ -137,7 +137,7 @@ func main() {
 	fmt.Println(f4()) // 5
 }
 </code></pre>
-<p>在日常开发中， defer 通常是用来做一些收尾工作的事情，例如 文件句柄关闭。上述的例子几乎不太可能出现在实际的日常开发中。但是，这几个例子对于理解 return、defer 的底层执行步骤是有很大帮助的。</p>
+<p>在日常开发中， defer 通常是用来做一些收尾工作的事情，例如 文件句柄关闭。所以上述的例子几乎不太可能出现在实际的日常开发中。但是，这几个例子对于理解 return、defer 的底层执行步骤是有很大帮助的。</p>
 <h1 id="return-和-defer-运行机制">return 和 defer 运行机制</h1>
 <h2 id="return">return</h2>
 <p><strong>return 并不是一个具有原子性的操作。</strong> 在一个函数 return 的时候，例如 return x ，其实底层是执行了两个步骤：</p>
@@ -166,7 +166,7 @@ func main() {
 	return x // 1. return 已经将 x 赋予实际返回值
 }
 
-func f2() (x int) { // 声明返回值变量
+func f2() (x int) { // 命名返回值
 	x = 5
 	defer func() {
 		x++ // 操作的是返回值的变量，所以最终返回值是 6
