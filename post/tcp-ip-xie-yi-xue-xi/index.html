@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>TCP / IP 协议 流程 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
-<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1575723555456">
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1581086535152">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
   integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -19,7 +19,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://superpony.github.io/">
-  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1575723555456" alt="">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1581086535152" alt="">
   </a>
   <h1 class="site-title">
     SuperPony&#39;s Blog
@@ -86,7 +86,7 @@
                 13 min read
               </span>
               
-                <a href="https://superpony.github.io//tag/zo_gKnCIP" class="post-tag">
+                <a href="https://superpony.github.io/tag/zo_gKnCIP" class="post-tag">
                   # 计算机
                 </a>
               
@@ -96,12 +96,12 @@
               <div class="post-content">
                 <h1 id="整体架构">整体架构</h1>
 <p>直接上图：<br>
-<img src="https://superpony.github.io//post-images/1573265456277.png" alt=""></p>
+<img src="https://superpony.github.io//post-images/1573265456277.png" alt="" loading="lazy"></p>
 <h1 id="tcp-ip-的一些基础知识">TCP / IP 的一些基础知识</h1>
 <p>在进行每一层的学习前，有必要了解一些基础的概念，来让我们对要学习的东西，有一点基础的概念。</p>
 <h2 id="tcp-ip-到底是什么">TCP/ IP 到底是什么</h2>
 <p>从字面而言，可能会有人认为是 TCP 和 IP 两种协议；而在实际生活中，有时确实也就是指这两种协议。但在大部分情况下， TCP / IP 协议只是 利用 IP 进行通信时所必须用到的<strong>协议群的统称</strong>，也就是说 IP 、 TCP 、 HTTP、 FTP 协议等等都可以泛指为 TCP / IP 协议。而且 TCP / IP 协议原本也正是为了互联网而开发制定的协议。</p>
-<figure data-type="image" tabindex="1"><img src="https://superpony.github.io//post-images/1573265778966.png" alt=""></figure>
+<figure data-type="image" tabindex="1"><img src="https://superpony.github.io//post-images/1573265778966.png" alt="" loading="lazy"></figure>
 <h2 id="包-帧-数据包-段-消息">包、帧、数据包、段、消息</h2>
 <p>以上五个术语，都是用来描述数据的单位，只不过区别在于，在不同阶段，名称不同。</p>
 <ul>
@@ -112,10 +112,10 @@
 <li>消息是指应用协议中数据的单位。</li>
 </ul>
 <p>在网络传输中的每个分层中，都会对所发送的数据附加一个首部，在这个首部中，包含了该层必要的信息，如发送的目标地址以及协议相关信息。通常而言，为协议提供的信息为包首部，所要发送的内容为数据（俄罗斯套娃）。在下一层的角度看，上一层收到的包全部都被认为成是本层的数据。<br>
-<img src="https://superpony.github.io//post-images/1573287483771.png" alt=""></p>
+<img src="https://superpony.github.io//post-images/1573287483771.png" alt="" loading="lazy"></p>
 <p>如上图所述，网络中传输的<strong>数据包</strong>由两部分组成，一部分是本层中协议所要用到的首部，另一部分是上一层传输过来的数据。首部的具体结构由协议的具体规范定义。在数据包的首部，明确了协议应该如何读取数据。通俗的讲，看到了首部，也就能够了解该协议必要的信息及所要处理的数据，包首部就像协议的使用说明书。</p>
 <h2 id="数据处理流程">数据处理流程</h2>
-<figure data-type="image" tabindex="2"><img src="https://superpony.github.io//post-images/1573288241945.png" alt=""></figure>
+<figure data-type="image" tabindex="2"><img src="https://superpony.github.io//post-images/1573288241945.png" alt="" loading="lazy"></figure>
 <ol>
 <li>① 应用程序处理首先应用程序会进行编码处理，这些编码相当于 OSI 的表示层功能；编码转化后，数据不一定马上被发送出去，这种何时建立通信连接何时发送数据的管理功能，相当于 OSI 的会话层功能。</li>
 <li>② TCP 模块的处理TCP 根据应用的指示，负责建立连接、发送数据以及断开连接。TCP 提供将应用层发来的数据顺利发送至对端的可靠传输。为了实现这一功能，需要在数据的前端附加一个 TCP 首部。</li>
@@ -128,7 +128,7 @@
 </ol>
 <h1 id="应用层">应用层</h1>
 <p>在理论上而言，有了下面三层(传输层，网络层，链路层)，数据已经可以从一台主机发送到另一台主机，但此时的数据仍然是字节流，不能很好的被对应的应用程序（浏览器、文件服务、虚拟终端等等）识别，且操作性差。因此，应用层定义了各种各样的协议来规范数据格式，方便对应的应用程序操作。常见的协议例如 HTTP、FTP、SMTP 等。以 HTTP 协议举例， 该协议主要用于 B/S架构<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> 之间的数据通信,其报文格式如下：<br>
-<img src="https://superpony.github.io//post-images/1573289920299.png" alt=""></p>
+<img src="https://superpony.github.io//post-images/1573289920299.png" alt="" loading="lazy"></p>
 <p>在 Request Headers 中， Accept 表示客户端（浏览器）希望接收的数据格式，而 Response Headers 中，Content-type 则是 服务端响应回来的数据格式，一般与 客户端希望接收的数据格式相同。</p>
 <p>当有了这个规范以后，服务端在接收到请求后，就能正确的解析客户端发来的请求，且当请求处理完毕以后，再按照客户端要求的格式返回，客户端收到结果后，按照服务端返回的格式进行解析。</p>
 <p>所以，应用层主要的工作就是，<strong>定义数据格式并按照对应的格式进行解读数据</strong>。</p>
@@ -215,7 +215,7 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://superpony.github.io//post/js-zhong-undefined-dao-di-shi-ge-sha">
+            <a href="https://superpony.github.io/post/js-zhong-undefined-dao-di-shi-ge-sha">
               <h3 class="post-title">
                 JS 中 undefined 到底是个啥
               </h3>
