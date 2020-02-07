@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2020-02-07T14:49:11.023Z</updated>
+    <updated>2020-02-07T14:52:32.528Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io/atom.xml"/>
@@ -10,110 +10,6 @@
     <logo>https://superpony.github.io/images/avatar.png</logo>
     <icon>https://superpony.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, SuperPony&apos;s Blog</rights>
-    <entry>
-        <title type="html"><![CDATA[常用的文件操作]]></title>
-        <id>https://superpony.github.io/post/chang-yong-de-wen-jian-cao-zuo</id>
-        <link href="https://superpony.github.io/post/chang-yong-de-wen-jian-cao-zuo">
-        </link>
-        <updated>2020-02-07T09:03:01.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="前言">前言</h1>
-<p>对于一个文件的操作而言，通常情况下是三个步骤：1.打开冰箱，2.将大象塞进去，3.关上冰箱。（开个玩笑😇）。重来一遍，对于一个文件进行操作，通常是三个步骤，1.打开并获取指定的文件资源，2. 对该文件资源进行相关的业务逻辑操作, 3.关闭文件资源。</p>
-<p>而之所以记录这篇笔记，目的在于加深对于文件操作的一些常用方法的印象，以及示范。</p>
-<h1 id="打开文件">打开文件</h1>
-<p>os.Open(file string) (f *file, err error)</p>
-<h1 id="关闭文件">关闭文件</h1>
-<p>f.Close() error</p>
-<h1 id="读取文件">读取文件</h1>
-<h2 id="os-包下-funcfile-read">os 包下 func(*File) Read</h2>
-<p><code>f.Read(b []byte )(n int, err error)</code>： 从指定文件资源中读取最多 b 的长度字节数并写入  b。返回读取的字节数，以及可能遇到的错误。当 n 等于 0 或是 err 等于 io.EOF 时，表示文件已经读到末尾。</p>
-<p>可以通过轮询的方式，不停的将读取到的字节写入 b，当 err 等于 io.EOF 时，跳出循环。</p>
-<pre><code>func main() {
-	fileObj, err := os.Open(&quot;src/demo/demo.txt&quot;)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	defer fileObj.Close()
-
-	var b [3]byte
-	res := make([]byte, 0)
-	for {
-		n, err := fileObj.Read(b[:]) // 每次传入 b 数组的切片
-
-		if err == io.EOF { // 文件读完，停止轮询
-			break
-		}
-
-		if err != nil { // 读取失败，直接打印错误日志，终止函数运行
-			log.Println(err)
-			return
-		}
-
-		res = append(res, b[:n]...) // 将 b 的切片 打散追加进 res 切片。
-	}
-	fmt.Println(string(res), res)
-}
-</code></pre>
-<h2 id="bufio-包下的-func-reader-readstring">bufio 包下的 func (*Reader) ReadString</h2>
-<p><code>func (r *Reader) ReadString(delim byte) (line string, err error)</code> : 读取直到第一次遇见 delim 的字节。然后返回包含 delim 字节和已经读取的数据的字符串。当该方法在读取到 delim 字节之前遇到了错误，则会返回遇到错误之前的数据，以及该错误 （一般是 io.EOF）。<br>
-该方法想要读取整个文件与 os 包的 Read 方法类似，都可以通过轮询的方式来读取，但是该方法有一个弊端，即 不是所有的文件类型的换行都是 \n，比如说 txt 文件。 所以通过 ReadString 方法并不能兼容所有文件类型。</p>
-<pre><code>func main() {
-	fileObj, err := os.Open(&quot;src/demo/demo.js&quot;)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	defer fileObj.Close()
-
-	if err != nil {
-		fmt.Println(&quot;open file err:&quot;, err.Error())
-		return
-	}
-
-	// 处理结束后关闭文件
-	defer fileObj.Close()
-
-	rd := bufio.NewReader(fileObj)
-	for {
-
-		str, err := rd.ReadString('\n')
-		if err == io.EOF {
-            return
-		}
-
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		fmt.Print(str)
-	}
-}
-</code></pre>
-<h2 id="简单直接的-ioutil-包下的-readallreadfile">简单直接的 ioutil 包下的 ReadAll/ReadFile</h2>
-<p><code>func ReadAll(r io.Reader) ([]byte, error)</code> : 直接从 r 读取直到 EOF 或遇到 error 。函数成功时， error 为 nil。</p>
-<p><code>func ReadFile(fileName) ([]byte, error)</code> : 和 ReadAll 相似，只是该函数直接传入文件路径。</p>
-<pre><code>func main() {
-
-	file := &quot;src/demo/demo.txt&quot;
-	str, err := ioutil.ReadFile(file)
-
-	fileObj, _ := os.Open(file)
-	defer fileObj.Close()
-
-	str2, err2 := ioutil.ReadAll(fileObj)
-
-	if err != nil || err2 != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Print(string(str))
-	fmt.Print(string(str2))
-}
-
-</code></pre>
-]]></content>
-    </entry>
     <entry>
         <title type="html"><![CDATA[return 和 defer 的底层运行步骤]]></title>
         <id>https://superpony.github.io/post/han-shu-zhong-de-return-he-defer</id>
@@ -936,6 +832,25 @@ font-size: .5em; /*good*/
 <h1 id="总结">总结</h1>
 <ul>
 <li>利远大于弊。</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[思考 Vue 中 computed 和 watch 的区别]]></title>
+        <id>https://superpony.github.io/post/si-kao-vue-zhong-computed-he-watch-de-qu-bie</id>
+        <link href="https://superpony.github.io/post/si-kao-vue-zhong-computed-he-watch-de-qu-bie">
+        </link>
+        <updated>2019-11-06T00:23:50.000Z</updated>
+        <content type="html"><![CDATA[<p>由于本人比较笨，理解能力也不太好，所以在学习和使用 Vue 里的 computed 和 watch 的时候，遇到了一个问题，就是 这俩玩意有啥区别？于是乎，查文档带百度吧！😤</p>
+<p>百度之后发现了一篇讲的个人觉着很生动和形象的 <a href="https://blog.csdn.net/mystric594/article/details/77849361">文章</a>。 当然，本着要（字）把（数）知（太）识（少）转（实）为（在）自（糊）己（弄）的（不）理（过）解（去）和（的）语（心）言（情）的（🌝）原则，还是将自己看过后的理解，写出来吧！</p>
+<h1 id="computed">computed</h1>
+<p>computed 适用于：一个属性的变化 依赖一个或多个属性的变化；打个比喻，它就像个没有主见的人，别人一动或者一变化，它就跟着变动。</p>
+<h1 id="watch">watch</h1>
+<p>watch 适用于：当一个属性变化时，自动的去改变其他的属性,或是触发一些业务逻辑，（当然这个取决于具体的业务逻辑）；它就像个很强势的人，当它变了，就会要求其他人也变动。</p>
+<h1 id="ps">PS.</h1>
+<ul>
+<li>同时触发了 watch 和 computed 时，计算属性先触发。</li>
+<li>如果假以时日，有哪位大佬看到这边文章了，请指出不足之处，万分感激！🙏</li>
 </ul>
 ]]></content>
     </entry>
