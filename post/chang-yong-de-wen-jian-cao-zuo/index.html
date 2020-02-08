@@ -1,0 +1,355 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Go 中常用的文件操作 | SuperPony&#39;s Blog</title>
+<meta name="description" content="Just for fun" />
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1581163041734">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+  integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://superpony.github.io//styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://superpony.github.io/">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1581163041734" alt="">
+  </a>
+  <h1 class="site-title">
+    SuperPony&#39;s Blog
+  </h1>
+  <p class="site-description">
+    Just for fun
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/SuperPony" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Go 中常用的文件操作
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-02-07
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="前言">前言</h1>
+<p>对于一个文件的操作而言，通常情况下是三个步骤：1.打开冰箱，2.将大象塞进去，3.关上冰箱。（开个玩笑😇）。重来一遍，对于一个文件进行操作，通常是三个步骤，1.打开并获取指定的文件资源，2. 对该文件资源进行相关的业务逻辑操作, 3.关闭文件资源。</p>
+<h1 id="打开文件">打开文件</h1>
+<ul>
+<li><code>func Open(file string) (f *file, err error)</code>： Open 函数打开的文件只具有读取权限 ，os 包内。</li>
+<li><code>func OpenFile(name string, flag int, perm FileMode) (file *File, err error)</code>:  同样是打开文件，但是属于低水平的，且可以设置打开的选项以及模式。</li>
+</ul>
+<h1 id="关闭文件">关闭文件</h1>
+<p>f.Close() error</p>
+<h1 id="读取操作">读取操作</h1>
+<h2 id="os-包下-funcfile-read">os 包下 func(*File) Read</h2>
+<p><code>f.Read(b []byte )(n int, err error)</code>： 从指定文件资源中读取最多 b 的长度字节数并写入  b。返回读取的字节数，以及可能遇到的错误。当 n 等于 0 或是 err 等于 io.EOF 时，表示文件已经读到末尾。</p>
+<p>可以通过轮询的方式，不停的将读取到的字节写入 b，当 err 等于 io.EOF 时，跳出循环。</p>
+<pre><code>func main() {
+	fileObj, err := os.Open(&quot;src/demo/demo.txt&quot;)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer fileObj.Close()
+
+	var b [3]byte
+	res := make([]byte, 0)
+	for {
+		n, err := fileObj.Read(b[:]) // 每次传入 b 数组的切片
+
+		if err == io.EOF { // 文件读完，停止轮询
+			break
+		}
+
+		if err != nil { // 读取失败，直接打印错误日志，终止函数运行
+			log.Println(err)
+			return
+		}
+
+		res = append(res, b[:n]...) // 将 b 的切片 打散追加进 res 切片。
+	}
+	fmt.Println(string(res), res)
+}
+</code></pre>
+<h2 id="bufio-包下的-func-reader-readstring">bufio 包下的 func (*Reader) ReadString</h2>
+<p><code>func (r *Reader) ReadString(delim byte) (line string, err error)</code> : 读取直到第一次遇见 delim 的字节。然后返回包含 delim 字节和已经读取的数据的字符串。当该方法在读取到 delim 字节之前遇到了错误，则会返回遇到错误之前的数据，以及该错误 （一般是 io.EOF）。<br>
+当尝试用该方法来读取文件的全部内容时，会有一个弊端，即 该方法不管 delim 是什么，都不太可能兼容读取所有的文件类型。例如以 \n 作为 delim 时，就有可能出现换行符不是 \n 的文件类型，比如说 txt 文件，一旦读取的是一个 txt 文件时，势必无法读取整个文件内容。</p>
+<pre><code>func main() {
+	fileObj, err := os.Open(&quot;src/demo/demo.js&quot;)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer fileObj.Close()
+
+	if err != nil {
+		fmt.Println(&quot;open file err:&quot;, err.Error())
+		return
+	}
+
+	// 处理结束后关闭文件
+	defer fileObj.Close()
+
+	rd := bufio.NewReader(fileObj)
+	for {
+
+		str, err := rd.ReadString('\n')
+		if err == io.EOF {
+            return
+		}
+
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Print(str)
+	}
+}
+</code></pre>
+<h2 id="简单直接的-ioutil-包下的-readallreadfile">简单直接的 ioutil 包下的 ReadAll/ReadFile</h2>
+<p><code>func ReadAll(r io.Reader) ([]byte, error)</code> : 直接从 r 读取直到 EOF 或遇到 error 。函数成功时， error 为 nil。</p>
+<p><code>func ReadFile(fileName) ([]byte, error)</code> : 和 ReadAll 相似，只是该函数直接传入文件路径。</p>
+<pre><code>func main() {
+
+	file := &quot;src/demo/demo.txt&quot;
+	str, err := ioutil.ReadFile(file)
+
+	fileObj, _ := os.Open(file)
+	defer fileObj.Close()
+
+	str2, err2 := ioutil.ReadAll(fileObj)
+
+	if err != nil || err2 != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Print(string(str))
+	fmt.Print(string(str2))
+}
+
+</code></pre>
+<h1 id="写入操作">写入操作</h1>
+<ul>
+<li>os 下的 <code>func (f *File) Write(b []byte) (n int, err error)</code></li>
+<li>os 下的 <code>func (f *File) WriteString(s string) (n int, err error)</code></li>
+</ul>
+<pre><code>func main() {
+	// 设置选项为 只写，追加。 权限 644
+	fileObj, err := os.OpenFile(&quot;src/demo/demo.txt&quot;, os.O_WRONLY|os.O_APPEND, 0644)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	n, err := fileObj.Write([]byte(&quot;你说什么嗷aaa&quot;))
+    // n, err := fileObj.WriteString(&quot;你说什么嗷aaa&quot;)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(n)
+}
+
+</code></pre>
+<h1 id="文件文件夹移动">文件/文件夹移动</h1>
+<ul>
+<li>os 下的 <code>func Rename(oldpath, newpath string) error</code> : 修改一个文件的名字，移动一个文件。</li>
+</ul>
+<h1 id="文件文件夹删除">文件/文件夹删除</h1>
+<ul>
+<li>
+<p>os 下的 <code>func Remove(file string) error</code> : 删除指定文件/文件夹, 当删除文件夹时，文件夹下必须为空。</p>
+</li>
+<li>
+<p>os 下的 <code>func RemoveAll(file string) error</code> : 删除指定文件/文件夹，当删除文件夹时会删除文件夹下全部内容。</p>
+</li>
+</ul>
+<h1 id="文件夹创建">文件夹创建</h1>
+<ul>
+<li>os 下的 <code>func Mkdir(name string, perm FileMode) error</code> :  以指定的 prem 权限创建一个文件夹，不可递归创建子目录。</li>
+<li>os  下的 <code>func MkdirAll(name string, perm FileMode) error</code> : 以指定权限创建目录，允许递归创建。</li>
+</ul>
+<h1 id="修改文件文件夹权限">修改文件/文件夹权限</h1>
+<ul>
+<li>os 下的 <code>func Chmod(name string, mode FileMode) error</code> : 以指定权限对文件/文件夹进行权限修改。</li>
+</ul>
+<h1 id="修改文件文件夹-用户id组id">修改文件/文件夹 用户ID，组ID</h1>
+<ul>
+<li>os  下的 <code>func Chown(name string, uid, gid int) error</code></li>
+</ul>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6">打开文件</a></li>
+<li><a href="#%E5%85%B3%E9%97%AD%E6%96%87%E4%BB%B6">关闭文件</a></li>
+<li><a href="#%E8%AF%BB%E5%8F%96%E6%93%8D%E4%BD%9C">读取操作</a>
+<ul>
+<li><a href="#os-%E5%8C%85%E4%B8%8B-funcfile-read">os 包下 func(*File) Read</a></li>
+<li><a href="#bufio-%E5%8C%85%E4%B8%8B%E7%9A%84-func-reader-readstring">bufio 包下的 func (*Reader) ReadString</a></li>
+<li><a href="#%E7%AE%80%E5%8D%95%E7%9B%B4%E6%8E%A5%E7%9A%84-ioutil-%E5%8C%85%E4%B8%8B%E7%9A%84-readallreadfile">简单直接的 ioutil 包下的 ReadAll/ReadFile</a></li>
+</ul>
+</li>
+<li><a href="#%E5%86%99%E5%85%A5%E6%93%8D%E4%BD%9C">写入操作</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E6%96%87%E4%BB%B6%E5%A4%B9%E7%A7%BB%E5%8A%A8">文件/文件夹移动</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E6%96%87%E4%BB%B6%E5%A4%B9%E5%88%A0%E9%99%A4">文件/文件夹删除</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E5%A4%B9%E5%88%9B%E5%BB%BA">文件夹创建</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%96%87%E4%BB%B6%E5%A4%B9%E6%9D%83%E9%99%90">修改文件/文件夹权限</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%96%87%E4%BB%B6%E5%A4%B9-%E7%94%A8%E6%88%B7id%E7%BB%84id">修改文件/文件夹 用户ID，组ID</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://superpony.github.io/post/han-shu-zhong-de-return-he-defer">
+              <h3 class="post-title">
+                return 和 defer 的底层运行步骤
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '188a6590013429e9c097',
+    clientSecret: 'e923744b63525d11d81f31da6e79a5f1c005f68b',
+    repo: 'SuperPony.github.io',
+    owner: 'SuperPony',
+    admin: ['SuperPony'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  nice to meet you ～  | 
+  <a class="rss" href="https://superpony.github.io//atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

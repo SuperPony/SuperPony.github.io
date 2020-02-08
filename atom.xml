@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2020-02-07T14:52:32.528Z</updated>
+    <updated>2020-02-08T11:57:25.391Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io/atom.xml"/>
@@ -10,6 +10,410 @@
     <logo>https://superpony.github.io/images/avatar.png</logo>
     <icon>https://superpony.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, SuperPony&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[Go 下的 fmt 包]]></title>
+        <id>https://superpony.github.io/post/go-xia-de-fmt-bao</id>
+        <link href="https://superpony.github.io/post/go-xia-de-fmt-bao">
+        </link>
+        <updated>2020-02-08T06:50:55.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="介绍">介绍</h1>
+<p>fmt 库是 Go 中使用非常频繁的一个标准库，该库主要实现了 格式化的 I/O 操作。该库的下的函数主要分为两大类， Scan 和 Print 。Scan 用于获取输入的内容而 Print 则用于向外输出内容。</p>
+<p>该笔记会记录一些常用的输出/输入函数，不会去记录所有函数。</p>
+<h1 id="占位符">占位符</h1>
+<p>下面列表中，常用的占位符加粗显示。</p>
+<h2 id="通用">通用</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>%v</strong></td>
+<td style="text-align:center">原样输出值</td>
+</tr>
+<tr>
+<td style="text-align:center">%+v</td>
+<td style="text-align:center">类似 %v ，但是输出结构体时会添加字段名</td>
+</tr>
+<tr>
+<td style="text-align:center">%#v</td>
+<td style="text-align:center">数据出的更加具体，例如一个 map 会将 map的类型，key 的 “” 都会输出。</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%T</strong></td>
+<td style="text-align:center">输出值的类型</td>
+</tr>
+<tr>
+<td style="text-align:center">%%</td>
+<td style="text-align:center">百分号</td>
+</tr>
+</tbody>
+</table>
+<h2 id="布尔值">布尔值</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>%t</strong></td>
+<td style="text-align:center">单词 true 或 false</td>
+</tr>
+</tbody>
+</table>
+<h2 id="整数">整数</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>%b</strong></td>
+<td style="text-align:center">表示为二进制</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%c</strong></td>
+<td style="text-align:center">该值对应的 unicode 码值</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%d</strong></td>
+<td style="text-align:center">表示为十进制</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%o</strong></td>
+<td style="text-align:center">表示为八进制</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%x</strong></td>
+<td style="text-align:center">表示为十六进制，使用 a-f</td>
+</tr>
+<tr>
+<td style="text-align:center">%X</td>
+<td style="text-align:center">表示为十六进制，使用 A-F</td>
+</tr>
+<tr>
+<td style="text-align:center">%U</td>
+<td style="text-align:center">表示为Unicode格式：U+1234，等价于&quot;U+%04X&quot;</td>
+</tr>
+<tr>
+<td style="text-align:center">%q</td>
+<td style="text-align:center">该值对应的单引号括起来的go语法字符字面值，必要时会采用安全的转义表示</td>
+</tr>
+</tbody>
+</table>
+<h2 id="浮点数和复数">浮点数和复数</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">%b</td>
+<td style="text-align:center">无小数部分、二进制指数的科学计数法，如-123456p-78</td>
+</tr>
+<tr>
+<td style="text-align:center">%e</td>
+<td style="text-align:center">科学计数法，如-1234.456e+78</td>
+</tr>
+<tr>
+<td style="text-align:center">%E</td>
+<td style="text-align:center">科学计数法，如-1234.456E+78</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%f</strong></td>
+<td style="text-align:center">有小数部分但无指数部分，如123.456</td>
+</tr>
+<tr>
+<td style="text-align:center">%F</td>
+<td style="text-align:center">等价 %f</td>
+</tr>
+<tr>
+<td style="text-align:center">%g</td>
+<td style="text-align:center">根据实际情况(传入浮点数的大小)采用 %e 或 %f 格式（以获得更简洁、准确的输出）</td>
+</tr>
+<tr>
+<td style="text-align:center">%G</td>
+<td style="text-align:center">根据实际情况(传入浮点数的大小)采用 %E 或 %F 格式（以获得更简洁、准确的输出）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="字符串和-byet">字符串和 []byet</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>%s</strong></td>
+<td style="text-align:center">直接输出字符串或 []byte</td>
+</tr>
+<tr>
+<td style="text-align:center">%q</td>
+<td style="text-align:center">该值对应的双引号括起来的go语法字符串字面值，必要时会采用安全的转义表示</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%x</strong></td>
+<td style="text-align:center">每个字节用两字符十六进制数表示（使用a-f）</td>
+</tr>
+<tr>
+<td style="text-align:center">%X</td>
+<td style="text-align:center">每个字节用两字符十六进制数表示（使用A-F）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="指针">指针</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>%p</strong></td>
+<td style="text-align:center">表示为十六进制，并加上前导的 0x</td>
+</tr>
+</tbody>
+</table>
+<h2 id="宽度标识符">宽度标识符</h2>
+<p>官方说明：宽度通过一个紧跟在百分号后面的十进制数指定，如果未指定宽度，则表示值时除必需之外不作填充。精度通过（可选的）宽度后跟点号后跟的十进制数指定。如果未指定精度，会使用默认精度；如果点号后没有跟数字，表示精度为0。<br>
+白话说明：控制输出内容时的宽度(例如输出个心形团🤓)<br>
+举例说明：<br>
+%f:    默认宽度，默认精度<br>
+%9f    宽度9，默认精度<br>
+%.2f   默认宽度，精度2<br>
+%9.2f  宽度9，精度2<br>
+%9.f   宽度9，精度0</p>
+<pre><code>    fmt.Printf(&quot;%10.2f&quot;, 3.14) // 宽度10，保留2个小数点。
+	fmt.Printf(&quot;%5s&quot;, &quot;你好&quot;)    // 宽度5，默认精度。
+	fmt.Printf(&quot;%.1f&quot;, 3.14)   // 默认宽度，保留1小数点。
+	fmt.Printf(&quot;%6.f&quot;, 3.14)   // 宽度6，不保留小数位。
+</code></pre>
+<h2 id="其他占位符">其他占位符</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:center">总是输出数值的正负号；对%q（%+q）会生成全部是ASCII字符的输出（通过转义）</td>
+</tr>
+<tr>
+<td style="text-align:center">对数值，正数前加空格而负数前加负号</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">-</td>
+<td style="text-align:center">在输出右边填充空白而不是默认的左边（即从默认的右对齐切换为左对齐）</td>
+</tr>
+<tr>
+<td style="text-align:center">#</td>
+<td style="text-align:center">切换格式：八进制数前加0（%#o），十六进制数前加0x（%#x）或0X（%#X），指针去掉前面的0x（%#p）；对%q（%#q），如果strconv.CanBackquote返回真会输出反引号括起来的未转义字符串；对%U（%#U），输出Unicode格式后，如字符可打印，还会输出空格和单引号括起来的go字面值；对字符串采用%x或%X时（% x或% X）会给各打印的字节之间加空格；</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">使用0而不是空格填充，对于数值类型会把填充的0放在正负号后面</td>
+</tr>
+</tbody>
+</table>
+<h1 id="print-系列函数">Print 系列函数</h1>
+<ul>
+<li>
+<p><code>func Printf(format string, a ...interface{}) (n int, err error)</code> : 根据 format 参数生成格式化的字符串，并写入标准输入。返回写入的字节数 n 和遇到的任何问题。</p>
+</li>
+<li>
+<p><code>func Print(a ...interface{}) (n int, err error)</code>: 采用默认格式将其参数格式化并写入标准输出。如果两个相邻的参数都不是字符串，会在它们的输出之间添加空格。返回写入的字节数和遇到的任何错误。</p>
+</li>
+<li>
+<p><code>func Println(a ...interface{}) (n int, err error)</code> ： 采用默认格式将其参数格式化并写入标准输出。总是会在相邻参数的输出之间添加空格并在输出结束后添加换行符。返回写入的字节数和遇到的任何错误。</p>
+</li>
+</ul>
+<h1 id="scan-系列函数">Scan 系列函数</h1>
+<ul>
+<li>
+<p><code>func Scan(a ...interface{}) (n int, err error)</code>: 从标准输入扫描文本，将成功读取的空白分隔的值保存进成功传递给本函数的参数。换行视为空白。返回成功扫描的条目个数和遇到的任何错误。如果读取的条目比提供的参数少，会返回一个错误报告原因。</p>
+</li>
+<li>
+<p><code>func Scanf(format string, a ...interface{}) (n int, err error)</code> : 从标准输入扫描文本，根据format 参数指定的格式将成功读取的空白分隔的值保存进成功传递给本函数的参数。返回成功扫描的条目个数和遇到的任何错误。</p>
+</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Go 中常用的文件操作]]></title>
+        <id>https://superpony.github.io/post/chang-yong-de-wen-jian-cao-zuo</id>
+        <link href="https://superpony.github.io/post/chang-yong-de-wen-jian-cao-zuo">
+        </link>
+        <updated>2020-02-07T09:03:01.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="前言">前言</h1>
+<p>对于一个文件的操作而言，通常情况下是三个步骤：1.打开冰箱，2.将大象塞进去，3.关上冰箱。（开个玩笑😇）。重来一遍，对于一个文件进行操作，通常是三个步骤，1.打开并获取指定的文件资源，2. 对该文件资源进行相关的业务逻辑操作, 3.关闭文件资源。</p>
+<h1 id="打开文件">打开文件</h1>
+<ul>
+<li><code>func Open(file string) (f *file, err error)</code>： Open 函数打开的文件只具有读取权限 ，os 包内。</li>
+<li><code>func OpenFile(name string, flag int, perm FileMode) (file *File, err error)</code>:  同样是打开文件，但是属于低水平的，且可以设置打开的选项以及模式。</li>
+</ul>
+<h1 id="关闭文件">关闭文件</h1>
+<p>f.Close() error</p>
+<h1 id="读取操作">读取操作</h1>
+<h2 id="os-包下-funcfile-read">os 包下 func(*File) Read</h2>
+<p><code>f.Read(b []byte )(n int, err error)</code>： 从指定文件资源中读取最多 b 的长度字节数并写入  b。返回读取的字节数，以及可能遇到的错误。当 n 等于 0 或是 err 等于 io.EOF 时，表示文件已经读到末尾。</p>
+<p>可以通过轮询的方式，不停的将读取到的字节写入 b，当 err 等于 io.EOF 时，跳出循环。</p>
+<pre><code>func main() {
+	fileObj, err := os.Open(&quot;src/demo/demo.txt&quot;)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer fileObj.Close()
+
+	var b [3]byte
+	res := make([]byte, 0)
+	for {
+		n, err := fileObj.Read(b[:]) // 每次传入 b 数组的切片
+
+		if err == io.EOF { // 文件读完，停止轮询
+			break
+		}
+
+		if err != nil { // 读取失败，直接打印错误日志，终止函数运行
+			log.Println(err)
+			return
+		}
+
+		res = append(res, b[:n]...) // 将 b 的切片 打散追加进 res 切片。
+	}
+	fmt.Println(string(res), res)
+}
+</code></pre>
+<h2 id="bufio-包下的-func-reader-readstring">bufio 包下的 func (*Reader) ReadString</h2>
+<p><code>func (r *Reader) ReadString(delim byte) (line string, err error)</code> : 读取直到第一次遇见 delim 的字节。然后返回包含 delim 字节和已经读取的数据的字符串。当该方法在读取到 delim 字节之前遇到了错误，则会返回遇到错误之前的数据，以及该错误 （一般是 io.EOF）。<br>
+当尝试用该方法来读取文件的全部内容时，会有一个弊端，即 该方法不管 delim 是什么，都不太可能兼容读取所有的文件类型。例如以 \n 作为 delim 时，就有可能出现换行符不是 \n 的文件类型，比如说 txt 文件，一旦读取的是一个 txt 文件时，势必无法读取整个文件内容。</p>
+<pre><code>func main() {
+	fileObj, err := os.Open(&quot;src/demo/demo.js&quot;)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer fileObj.Close()
+
+	if err != nil {
+		fmt.Println(&quot;open file err:&quot;, err.Error())
+		return
+	}
+
+	// 处理结束后关闭文件
+	defer fileObj.Close()
+
+	rd := bufio.NewReader(fileObj)
+	for {
+
+		str, err := rd.ReadString('\n')
+		if err == io.EOF {
+            return
+		}
+
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Print(str)
+	}
+}
+</code></pre>
+<h2 id="简单直接的-ioutil-包下的-readallreadfile">简单直接的 ioutil 包下的 ReadAll/ReadFile</h2>
+<p><code>func ReadAll(r io.Reader) ([]byte, error)</code> : 直接从 r 读取直到 EOF 或遇到 error 。函数成功时， error 为 nil。</p>
+<p><code>func ReadFile(fileName) ([]byte, error)</code> : 和 ReadAll 相似，只是该函数直接传入文件路径。</p>
+<pre><code>func main() {
+
+	file := &quot;src/demo/demo.txt&quot;
+	str, err := ioutil.ReadFile(file)
+
+	fileObj, _ := os.Open(file)
+	defer fileObj.Close()
+
+	str2, err2 := ioutil.ReadAll(fileObj)
+
+	if err != nil || err2 != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Print(string(str))
+	fmt.Print(string(str2))
+}
+
+</code></pre>
+<h1 id="写入操作">写入操作</h1>
+<ul>
+<li>os 下的 <code>func (f *File) Write(b []byte) (n int, err error)</code></li>
+<li>os 下的 <code>func (f *File) WriteString(s string) (n int, err error)</code></li>
+</ul>
+<pre><code>func main() {
+	// 设置选项为 只写，追加。 权限 644
+	fileObj, err := os.OpenFile(&quot;src/demo/demo.txt&quot;, os.O_WRONLY|os.O_APPEND, 0644)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	n, err := fileObj.Write([]byte(&quot;你说什么嗷aaa&quot;))
+    // n, err := fileObj.WriteString(&quot;你说什么嗷aaa&quot;)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(n)
+}
+
+</code></pre>
+<h1 id="文件文件夹移动">文件/文件夹移动</h1>
+<ul>
+<li>os 下的 <code>func Rename(oldpath, newpath string) error</code> : 修改一个文件的名字，移动一个文件。</li>
+</ul>
+<h1 id="文件文件夹删除">文件/文件夹删除</h1>
+<ul>
+<li>
+<p>os 下的 <code>func Remove(file string) error</code> : 删除指定文件/文件夹, 当删除文件夹时，文件夹下必须为空。</p>
+</li>
+<li>
+<p>os 下的 <code>func RemoveAll(file string) error</code> : 删除指定文件/文件夹，当删除文件夹时会删除文件夹下全部内容。</p>
+</li>
+</ul>
+<h1 id="文件夹创建">文件夹创建</h1>
+<ul>
+<li>os 下的 <code>func Mkdir(name string, perm FileMode) error</code> :  以指定的 prem 权限创建一个文件夹，不可递归创建子目录。</li>
+<li>os  下的 <code>func MkdirAll(name string, perm FileMode) error</code> : 以指定权限创建目录，允许递归创建。</li>
+</ul>
+<h1 id="修改文件文件夹权限">修改文件/文件夹权限</h1>
+<ul>
+<li>os 下的 <code>func Chmod(name string, mode FileMode) error</code> : 以指定权限对文件/文件夹进行权限修改。</li>
+</ul>
+<h1 id="修改文件文件夹-用户id组id">修改文件/文件夹 用户ID，组ID</h1>
+<ul>
+<li>os  下的 <code>func Chown(name string, uid, gid int) error</code></li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[return 和 defer 的底层运行步骤]]></title>
         <id>https://superpony.github.io/post/han-shu-zhong-de-return-he-defer</id>
@@ -732,126 +1136,6 @@ font-size: .5em; /*good*/
 <p>合作伙伴：partner</p>
 <p>友情链接：link</p>
 <p>版权：copyright</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[BEM]]></title>
-        <id>https://superpony.github.io/post/bem</id>
-        <link href="https://superpony.github.io/post/bem">
-        </link>
-        <updated>2019-11-06T07:08:07.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="什么是-bem">什么是 BEM</h1>
-<ul>
-<li>BEM 是俄罗斯团队 Yandex 团队提出的一种 CSS 命名方法，通过组件化/模块化的命名思想，让 CSS 的结构和命名语义更佳规范和透明，便于维护。</li>
-</ul>
-<h1 id="bem-的构成">BEM 的构成</h1>
-<ul>
-<li>BEM 由 块（block）、元素（element）、修饰符（modifier） 三个部分构成。</li>
-<li>命名约定的规范如下：</li>
-</ul>
-<pre><code>    /* 块 */
-    .my-block {}
-
-    /* 元素 */
-    .my-block__my-element {}
-
-    /* 修饰符 */
-    .my-block--my-modifier {}
-    .my-block__my-element--my-modifier {}
-</code></pre>
-<ul>
-<li>单词之间以 - 分割。</li>
-</ul>
-<h2 id="块">块</h2>
-<ul>
-<li>任何可以独立，复用而不依赖其他块的部分，都可以单独作为一个块。</li>
-<li>块可以嵌套其他块，来实现业务逻辑。</li>
-<li>例如 一个 from 表单，一个 header 头 都可以作为一个块，来为其单独命名。</li>
-</ul>
-<h2 id="元素">元素</h2>
-<ul>
-<li>元素是块的组成部分，对应块中的子元素/子节点。</li>
-<li>元素的命名必须声名其所属的块名称。例如 <code>.my-from__input</code></li>
-<li>块名与元素之间以 __  （双下划）线分割。</li>
-</ul>
-<h2 id="修饰符">修饰符</h2>
-<ul>
-<li>修饰符的意义在于让 块/元素拥有更丰富的外观或行为，来应对不同的情景。</li>
-<li>修饰符不可以单独使用，它的意义是为了丰富 块/元素。</li>
-<li>例如 buttom 按钮， 可以 为其定义 error 和 success 修饰符，分别为其定义属性，让其应对不同的情景。</li>
-</ul>
-<h2 id="示例">示例</h2>
-<pre><code>&lt;template&gt;
-    &lt;form class=&quot;my-form&quot;&gt;
-        &lt;input class=&quot;my-form__input&quot; type=&quot;text&quot; /&gt;
-        &lt;button class=&quot;my-form__button&quot;&gt;click me&lt;/button&gt;
-        &lt;button class=&quot;my-form__button--danger&quot;&gt;don't click me&lt;/button&gt;
-    &lt;/form&gt;
-&lt;/template&gt;
-&lt;script&gt;
-    export default {
-
-    }
-&lt;/script&gt;
-
-&lt;style lang=&quot;css&quot; scoped&gt;
-    /* from 可以单独作为一个可以复用的组件，所以可以将其设置为一个单独的块 */
-    .my-form {
-        width: 500px;
-        height: 500px;
-    }
-
-    .my-form__input {
-        width: 100px;
-    }
-
-    .my-form__button {
-        background-color: aqua;
-    }
-
-     /* 修饰符让 块/元素 拥有更丰富的语意和情景 */
-    .my-form__button--status-success {
-        background-color: green;
-    }
-
-    .my-form__button--status-danger {
-        background-color: red;
-    }
-&lt;/style&gt; 
-</code></pre>
-<h1 id="bem-的好处">BEM 的好处</h1>
-<ul>
-<li>通过 组件化/模块化 的思想，让整个项目的 CSS 拆分，从而解耦合。</li>
-<li>规范化的命名方式 <code>block__element--modifier</code> ,让整个 CSS 书写起来结构化更佳清晰，可读，灵活。</li>
-<li>命名方法扁平化，可以避免样式层级过多而导致解析效率变低。</li>
-</ul>
-<h1 id="bem-的坏处">BEM 的坏处</h1>
-<ul>
-<li>命名过长。</li>
-</ul>
-<h1 id="总结">总结</h1>
-<ul>
-<li>利远大于弊。</li>
-</ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[思考 Vue 中 computed 和 watch 的区别]]></title>
-        <id>https://superpony.github.io/post/si-kao-vue-zhong-computed-he-watch-de-qu-bie</id>
-        <link href="https://superpony.github.io/post/si-kao-vue-zhong-computed-he-watch-de-qu-bie">
-        </link>
-        <updated>2019-11-06T00:23:50.000Z</updated>
-        <content type="html"><![CDATA[<p>由于本人比较笨，理解能力也不太好，所以在学习和使用 Vue 里的 computed 和 watch 的时候，遇到了一个问题，就是 这俩玩意有啥区别？于是乎，查文档带百度吧！😤</p>
-<p>百度之后发现了一篇讲的个人觉着很生动和形象的 <a href="https://blog.csdn.net/mystric594/article/details/77849361">文章</a>。 当然，本着要（字）把（数）知（太）识（少）转（实）为（在）自（糊）己（弄）的（不）理（过）解（去）和（的）语（心）言（情）的（🌝）原则，还是将自己看过后的理解，写出来吧！</p>
-<h1 id="computed">computed</h1>
-<p>computed 适用于：一个属性的变化 依赖一个或多个属性的变化；打个比喻，它就像个没有主见的人，别人一动或者一变化，它就跟着变动。</p>
-<h1 id="watch">watch</h1>
-<p>watch 适用于：当一个属性变化时，自动的去改变其他的属性,或是触发一些业务逻辑，（当然这个取决于具体的业务逻辑）；它就像个很强势的人，当它变了，就会要求其他人也变动。</p>
-<h1 id="ps">PS.</h1>
-<ul>
-<li>同时触发了 watch 和 computed 时，计算属性先触发。</li>
-<li>如果假以时日，有哪位大佬看到这边文章了，请指出不足之处，万分感激！🙏</li>
-</ul>
 ]]></content>
     </entry>
 </feed>

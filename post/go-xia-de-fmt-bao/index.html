@@ -1,0 +1,452 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Go 下的 fmt 包 | SuperPony&#39;s Blog</title>
+<meta name="description" content="Just for fun" />
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1581163041734">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+  integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://superpony.github.io//styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://superpony.github.io/">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1581163041734" alt="">
+  </a>
+  <h1 class="site-title">
+    SuperPony&#39;s Blog
+  </h1>
+  <p class="site-description">
+    Just for fun
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/SuperPony" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Go 下的 fmt 包
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-02-08
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://superpony.github.io/tag/-S07Q9IBJ" class="post-tag">
+                  # Go标准库
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="介绍">介绍</h1>
+<p>fmt 库是 Go 中使用非常频繁的一个标准库，该库主要实现了 格式化的 I/O 操作。该库的下的函数主要分为两大类， Scan 和 Print 。Scan 用于获取输入的内容而 Print 则用于向外输出内容。</p>
+<p>该笔记会记录一些常用的输出/输入函数，不会去记录所有函数。</p>
+<h1 id="占位符">占位符</h1>
+<p>下面列表中，常用的占位符加粗显示。</p>
+<h2 id="通用">通用</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>%v</strong></td>
+<td style="text-align:center">原样输出值</td>
+</tr>
+<tr>
+<td style="text-align:center">%+v</td>
+<td style="text-align:center">类似 %v ，但是输出结构体时会添加字段名</td>
+</tr>
+<tr>
+<td style="text-align:center">%#v</td>
+<td style="text-align:center">数据出的更加具体，例如一个 map 会将 map的类型，key 的 “” 都会输出。</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%T</strong></td>
+<td style="text-align:center">输出值的类型</td>
+</tr>
+<tr>
+<td style="text-align:center">%%</td>
+<td style="text-align:center">百分号</td>
+</tr>
+</tbody>
+</table>
+<h2 id="布尔值">布尔值</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>%t</strong></td>
+<td style="text-align:center">单词 true 或 false</td>
+</tr>
+</tbody>
+</table>
+<h2 id="整数">整数</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>%b</strong></td>
+<td style="text-align:center">表示为二进制</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%c</strong></td>
+<td style="text-align:center">该值对应的 unicode 码值</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%d</strong></td>
+<td style="text-align:center">表示为十进制</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%o</strong></td>
+<td style="text-align:center">表示为八进制</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%x</strong></td>
+<td style="text-align:center">表示为十六进制，使用 a-f</td>
+</tr>
+<tr>
+<td style="text-align:center">%X</td>
+<td style="text-align:center">表示为十六进制，使用 A-F</td>
+</tr>
+<tr>
+<td style="text-align:center">%U</td>
+<td style="text-align:center">表示为Unicode格式：U+1234，等价于&quot;U+%04X&quot;</td>
+</tr>
+<tr>
+<td style="text-align:center">%q</td>
+<td style="text-align:center">该值对应的单引号括起来的go语法字符字面值，必要时会采用安全的转义表示</td>
+</tr>
+</tbody>
+</table>
+<h2 id="浮点数和复数">浮点数和复数</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">%b</td>
+<td style="text-align:center">无小数部分、二进制指数的科学计数法，如-123456p-78</td>
+</tr>
+<tr>
+<td style="text-align:center">%e</td>
+<td style="text-align:center">科学计数法，如-1234.456e+78</td>
+</tr>
+<tr>
+<td style="text-align:center">%E</td>
+<td style="text-align:center">科学计数法，如-1234.456E+78</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%f</strong></td>
+<td style="text-align:center">有小数部分但无指数部分，如123.456</td>
+</tr>
+<tr>
+<td style="text-align:center">%F</td>
+<td style="text-align:center">等价 %f</td>
+</tr>
+<tr>
+<td style="text-align:center">%g</td>
+<td style="text-align:center">根据实际情况(传入浮点数的大小)采用 %e 或 %f 格式（以获得更简洁、准确的输出）</td>
+</tr>
+<tr>
+<td style="text-align:center">%G</td>
+<td style="text-align:center">根据实际情况(传入浮点数的大小)采用 %E 或 %F 格式（以获得更简洁、准确的输出）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="字符串和-byet">字符串和 []byet</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>%s</strong></td>
+<td style="text-align:center">直接输出字符串或 []byte</td>
+</tr>
+<tr>
+<td style="text-align:center">%q</td>
+<td style="text-align:center">该值对应的双引号括起来的go语法字符串字面值，必要时会采用安全的转义表示</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>%x</strong></td>
+<td style="text-align:center">每个字节用两字符十六进制数表示（使用a-f）</td>
+</tr>
+<tr>
+<td style="text-align:center">%X</td>
+<td style="text-align:center">每个字节用两字符十六进制数表示（使用A-F）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="指针">指针</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>%p</strong></td>
+<td style="text-align:center">表示为十六进制，并加上前导的 0x</td>
+</tr>
+</tbody>
+</table>
+<h2 id="宽度标识符">宽度标识符</h2>
+<p>官方说明：宽度通过一个紧跟在百分号后面的十进制数指定，如果未指定宽度，则表示值时除必需之外不作填充。精度通过（可选的）宽度后跟点号后跟的十进制数指定。如果未指定精度，会使用默认精度；如果点号后没有跟数字，表示精度为0。<br>
+白话说明：控制输出内容时的宽度(例如输出个心形团🤓)<br>
+举例说明：<br>
+%f:    默认宽度，默认精度<br>
+%9f    宽度9，默认精度<br>
+%.2f   默认宽度，精度2<br>
+%9.2f  宽度9，精度2<br>
+%9.f   宽度9，精度0</p>
+<pre><code>    fmt.Printf(&quot;%10.2f&quot;, 3.14) // 宽度10，保留2个小数点。
+	fmt.Printf(&quot;%5s&quot;, &quot;你好&quot;)    // 宽度5，默认精度。
+	fmt.Printf(&quot;%.1f&quot;, 3.14)   // 默认宽度，保留1小数点。
+	fmt.Printf(&quot;%6.f&quot;, 3.14)   // 宽度6，不保留小数位。
+</code></pre>
+<h2 id="其他占位符">其他占位符</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">占位符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:center">总是输出数值的正负号；对%q（%+q）会生成全部是ASCII字符的输出（通过转义）</td>
+</tr>
+<tr>
+<td style="text-align:center">对数值，正数前加空格而负数前加负号</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">-</td>
+<td style="text-align:center">在输出右边填充空白而不是默认的左边（即从默认的右对齐切换为左对齐）</td>
+</tr>
+<tr>
+<td style="text-align:center">#</td>
+<td style="text-align:center">切换格式：八进制数前加0（%#o），十六进制数前加0x（%#x）或0X（%#X），指针去掉前面的0x（%#p）；对%q（%#q），如果strconv.CanBackquote返回真会输出反引号括起来的未转义字符串；对%U（%#U），输出Unicode格式后，如字符可打印，还会输出空格和单引号括起来的go字面值；对字符串采用%x或%X时（% x或% X）会给各打印的字节之间加空格；</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">使用0而不是空格填充，对于数值类型会把填充的0放在正负号后面</td>
+</tr>
+</tbody>
+</table>
+<h1 id="print-系列函数">Print 系列函数</h1>
+<ul>
+<li>
+<p><code>func Printf(format string, a ...interface{}) (n int, err error)</code> : 根据 format 参数生成格式化的字符串，并写入标准输入。返回写入的字节数 n 和遇到的任何问题。</p>
+</li>
+<li>
+<p><code>func Print(a ...interface{}) (n int, err error)</code>: 采用默认格式将其参数格式化并写入标准输出。如果两个相邻的参数都不是字符串，会在它们的输出之间添加空格。返回写入的字节数和遇到的任何错误。</p>
+</li>
+<li>
+<p><code>func Println(a ...interface{}) (n int, err error)</code> ： 采用默认格式将其参数格式化并写入标准输出。总是会在相邻参数的输出之间添加空格并在输出结束后添加换行符。返回写入的字节数和遇到的任何错误。</p>
+</li>
+</ul>
+<h1 id="scan-系列函数">Scan 系列函数</h1>
+<ul>
+<li>
+<p><code>func Scan(a ...interface{}) (n int, err error)</code>: 从标准输入扫描文本，将成功读取的空白分隔的值保存进成功传递给本函数的参数。换行视为空白。返回成功扫描的条目个数和遇到的任何错误。如果读取的条目比提供的参数少，会返回一个错误报告原因。</p>
+</li>
+<li>
+<p><code>func Scanf(format string, a ...interface{}) (n int, err error)</code> : 从标准输入扫描文本，根据format 参数指定的格式将成功读取的空白分隔的值保存进成功传递给本函数的参数。返回成功扫描的条目个数和遇到的任何错误。</p>
+</li>
+</ul>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a></li>
+<li><a href="#%E5%8D%A0%E4%BD%8D%E7%AC%A6">占位符</a>
+<ul>
+<li><a href="#%E9%80%9A%E7%94%A8">通用</a></li>
+<li><a href="#%E5%B8%83%E5%B0%94%E5%80%BC">布尔值</a></li>
+<li><a href="#%E6%95%B4%E6%95%B0">整数</a></li>
+<li><a href="#%E6%B5%AE%E7%82%B9%E6%95%B0%E5%92%8C%E5%A4%8D%E6%95%B0">浮点数和复数</a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C-byet">字符串和 []byet</a></li>
+<li><a href="#%E6%8C%87%E9%92%88">指针</a></li>
+<li><a href="#%E5%AE%BD%E5%BA%A6%E6%A0%87%E8%AF%86%E7%AC%A6">宽度标识符</a></li>
+<li><a href="#%E5%85%B6%E4%BB%96%E5%8D%A0%E4%BD%8D%E7%AC%A6">其他占位符</a></li>
+</ul>
+</li>
+<li><a href="#print-%E7%B3%BB%E5%88%97%E5%87%BD%E6%95%B0">Print 系列函数</a></li>
+<li><a href="#scan-%E7%B3%BB%E5%88%97%E5%87%BD%E6%95%B0">Scan 系列函数</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://superpony.github.io/post/chang-yong-de-wen-jian-cao-zuo">
+              <h3 class="post-title">
+                Go 中常用的文件操作
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '188a6590013429e9c097',
+    clientSecret: 'e923744b63525d11d81f31da6e79a5f1c005f68b',
+    repo: 'SuperPony.github.io',
+    owner: 'SuperPony',
+    admin: ['SuperPony'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  nice to meet you ～  | 
+  <a class="rss" href="https://superpony.github.io//atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>
