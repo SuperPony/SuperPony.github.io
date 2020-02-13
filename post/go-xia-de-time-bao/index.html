@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Go 下的 time 包 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
-<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1581603714840">
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1581603969603">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
   integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -19,7 +19,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://superpony.github.io/">
-  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1581603714840" alt="">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1581603969603" alt="">
   </a>
   <h1 class="site-title">
     SuperPony&#39;s Blog
@@ -204,17 +204,13 @@ fmt.Println(t)
 <h2 id="ticker">Ticker</h2>
 <p>一直执行的定时器，并且每次触发就向 Ticker.C 通道发送当前时间。</p>
 <ul>
-<li>
-<p><code>func NewTicker(d Duration) *Ticker</code>: 创建一个 Ticker</p>
-</li>
-<li>
-<p><code>func (t *Ticker) Stop()</code>： 关闭一个 Ticker，该方法不会关闭 Ticker.C。</p>
-<h2 id="其他函数">其他函数</h2>
+<li><code>func NewTicker(d Duration) *Ticker</code>: 创建一个 Ticker</li>
+<li><code>func (t *Ticker) Stop()</code>： 关闭一个 Ticker，该方法不会关闭 Ticker.C。</li>
+</ul>
+<h1 id="其他函数">其他函数</h1>
 <ul>
 <li><code>func Sleep(d Duration)</code> : 阻塞当前go程 d 时间。</li>
 <li><code>func After(d Duration) &lt;-chan Time</code> : 该函数会在另一线程等待 d 时间后，向返回值发送当前时间，等价 NewTimer(d).C</li>
-</ul>
-</li>
 </ul>
 
               </div>
@@ -232,9 +228,9 @@ fmt.Println(t)
 <ul>
 <li><a href="#timer">Timer</a></li>
 <li><a href="#ticker">Ticker</a></li>
-<li><a href="#%E5%85%B6%E4%BB%96%E5%87%BD%E6%95%B0">其他函数</a></li>
 </ul>
 </li>
+<li><a href="#%E5%85%B6%E4%BB%96%E5%87%BD%E6%95%B0">其他函数</a></li>
 </ul>
 
               </div>

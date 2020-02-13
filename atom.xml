@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2020-02-13T14:21:56.186Z</updated>
+    <updated>2020-02-13T14:26:11.028Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io/atom.xml"/>
@@ -126,17 +126,13 @@ fmt.Println(t)
 <h2 id="ticker">Ticker</h2>
 <p>一直执行的定时器，并且每次触发就向 Ticker.C 通道发送当前时间。</p>
 <ul>
-<li>
-<p><code>func NewTicker(d Duration) *Ticker</code>: 创建一个 Ticker</p>
-</li>
-<li>
-<p><code>func (t *Ticker) Stop()</code>： 关闭一个 Ticker，该方法不会关闭 Ticker.C。</p>
-<h2 id="其他函数">其他函数</h2>
+<li><code>func NewTicker(d Duration) *Ticker</code>: 创建一个 Ticker</li>
+<li><code>func (t *Ticker) Stop()</code>： 关闭一个 Ticker，该方法不会关闭 Ticker.C。</li>
+</ul>
+<h1 id="其他函数">其他函数</h1>
 <ul>
 <li><code>func Sleep(d Duration)</code> : 阻塞当前go程 d 时间。</li>
 <li><code>func After(d Duration) &lt;-chan Time</code> : 该函数会在另一线程等待 d 时间后，向返回值发送当前时间，等价 NewTimer(d).C</li>
-</ul>
-</li>
 </ul>
 ]]></content>
     </entry>
