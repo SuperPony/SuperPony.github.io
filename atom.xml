@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2020-02-13T14:26:11.028Z</updated>
+    <updated>2020-02-13T14:31:05.279Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io/atom.xml"/>
@@ -143,7 +143,7 @@ fmt.Println(t)
         </link>
         <updated>2020-02-08T06:50:55.000Z</updated>
         <content type="html"><![CDATA[<h1 id="介绍">介绍</h1>
-<p>fmt 库是 Go 中使用非常频繁的一个标准库，该库主要实现了 格式化的标准 I/O 操作。该库的下的函数主要分为两大类， Scan 和 Print 。Scan 用于获取输入的内容而 Print 则用于向外输出内容。</p>
+<p>fmt 库是 Go 中使用非常频繁的一个标准库，该库主要实现了 格式化的标准 I/O 操作。该库下的函数主要分为两大类， Scan 和 Print 。Scan 用于获取输入的内容而 Print 则用于向外输出内容。</p>
 <p>该笔记会记录一些常用的输出/输入函数，不会去记录所有函数。</p>
 <h1 id="占位符">占位符</h1>
 <p>下面列表中，常用的占位符加粗显示。</p>
