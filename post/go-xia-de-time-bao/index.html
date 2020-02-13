@@ -1,0 +1,334 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Go 下的 time 包 | SuperPony&#39;s Blog</title>
+<meta name="description" content="Just for fun" />
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1581603697051">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+  integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://superpony.github.io//styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://superpony.github.io/">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1581603697051" alt="">
+  </a>
+  <h1 class="site-title">
+    SuperPony&#39;s Blog
+  </h1>
+  <p class="site-description">
+    Just for fun
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/SuperPony" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Go 下的 time 包
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-02-10
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://superpony.github.io/tag/-S07Q9IBJ" class="post-tag">
+                  # Go标准库
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="介绍">介绍</h1>
+<p>time 包主要分为两大功能，一是对外提供了时间功能相关的实现，二是定时器功能相关的实现。这篇笔记主要记录 time 内常用的一些方法。</p>
+<h1 id="type-duration-int64">type Duration int64</h1>
+<p>Duration 类型代表两个时间点之间经过的时间，以纳秒为单位。可表示的最长时间段大约290年, 该类型主要用于时间计算以及定时器。</p>
+<pre><code>const (
+    Nanosecond  Duration = 1
+    Microsecond        = 1000 * Nanosecond
+    Millisecond          = 1000 * Microsecond
+    Second               = 1000 * Millisecond
+    Minute                = 60 * Second
+    Hour                   = 60 * Minute
+)
+</code></pre>
+<h1 id="时间相关">时间相关</h1>
+<p>time 包下的大部分方法的接收者都是 time.Time 类型，所以拿到 time.Time 类型是几乎是时间操作相关逻辑的第一步。</p>
+<ul>
+<li>
+<p><code>func Now() Time</code> : 返回当前的时间，格式为 2020-02-10 21:05:39.081226 +0800 CST m=+0.000109188 。</p>
+</li>
+<li>
+<p><code>func (t Time) Year() int / func (t Time) Day() int / func (t Time) Hour() int / func (t Time) Minute() int / func (t Time) Second() int</code>  : 返回对应的年 日 时 分 秒。</p>
+</li>
+<li>
+<p><code>func (t Time) Month() Month</code> :  Month 方法返回值有点特殊，是一个 Month 类型，想要对应的数字类型，还需要 int(Month) 转一下。</p>
+<ul>
+<li><code>func (t Time) Date() (year int, month Month, day int) / func (t Time) Clock() (hour, min, sec int)</code> : 返回 年月日， 时分秒。</li>
+</ul>
+</li>
+<li>
+<p><code>func (t Time) Add(d Duration) Time</code> : 返回 t + d  的时间，例如 求当前时间 + 1个小时后的时间。</p>
+</li>
+<li>
+<p><code>func (t Time) AddDate(years int, months int, days int) Time</code> : 返回 t + 年 月 日后的时间。</p>
+</li>
+<li>
+<p><code>func (t Time) Sub(u Time) Duration</code> :  t -  u 的时间差</p>
+</li>
+<li>
+<p><code>func (t Time) Equal(u Time) bool</code> ： 比较两个时间是否相同，底层会自动将时区的因素考虑进去，因此哪怕 t 和 u 的时区不同也可以进行比较。</p>
+</li>
+<li>
+<p><code>func (t Time) Before(u Time) bool</code> : 如果 t 在 u 之前，返回 true  否则 false</p>
+</li>
+<li>
+<p><code>func (t Time) After(u Time) bool</code> ： 如果 t 在 u 之后，返回 true  否则 false</p>
+</li>
+<li>
+<p><code>func (t Time) Unix() int64 / func (t Time) UnixNano() int64</code> : 返回时间戳 / 纳秒时间戳</p>
+</li>
+<li>
+<p><code>func (t Time) Zone() (name string, offset int)</code> : 返回当前时间的时区，以及相对于 UTC 时区的偏差（秒）</p>
+</li>
+</ul>
+<h2 id="时区相关">时区相关</h2>
+<ul>
+<li>
+<p><code>func LoadLocation(name string) (*Location, error)</code> : 根据 name 获取相应的时区，例如 Asia/Shanghai 或者 UTC ，以及可能的错误。</p>
+</li>
+<li>
+<p><code>func (l *Location) String() string</code> : 根据时区，返回对应的描述信息。</p>
+</li>
+</ul>
+<h2 id="时间格式化">时间格式化</h2>
+<p>和其他语言格式化的格式化模版 Y-m-d h m s 不太一样， Go 的格式化模版 是 2006 01 02 03/15 04 (Go 的诞生时间，2006年1月2号15点4分)</p>
+<ul>
+<li><code>func (t Time) Format(layout string) string</code> : 根据 layout 模版，进行格式化。</li>
+</ul>
+<pre><code>now := time.Now() //获取当前时间
+// .000 表示毫秒
+fmt.Println(now.Format(&quot;2006-01-02 15:04:05.000&quot;)) // 24小时制 用 15
+
+fmt.Println(now.Format(&quot;2006-01-02 03:04:05.000&quot;)) // 12小时制 用 03
+</code></pre>
+<ul>
+<li><code>func ParseInLocation(layout, value string, loc *Location) (Time, error)</code> : 根据指定的时间模版 layout 格式化 value 时间，时区采用 loc 。返回一个 Time 和可能的错误。</li>
+</ul>
+<pre><code>loc, err := time.LoadLocation(&quot;Asia/Shanghai&quot;)
+if err != nil {
+    fmt.Println(err)
+    return
+}
+
+t, err := time.ParseInLocation(&quot;2006-01-02 03:04:05&quot;, &quot;2020-01-21 02:22:32&quot;, loc)
+if err != nil {
+    fmt.Println(err)
+    return
+}
+fmt.Println(t) 
+</code></pre>
+<h1 id="定时器">定时器</h1>
+<p>time 包下的定时器分为两类， Timer 类型的只执行一次的定时器和 Ticker 类型的一直执行的定时器。两种类型内都包含了一个 chan Time 类型的 C 字段。当时间到的时候，就会向该字段发送当前的时间。</p>
+<h2 id="timer">Timer</h2>
+<p>单次定时器。</p>
+<ul>
+<li>
+<p><code>func NewTimer(d Duration) *Timer</code> : 设置一个单次定时器，在等待时，会阻塞当前go程。当时间到时，向 Timer.C  通道发送当前时间。</p>
+</li>
+<li>
+<p><code>func AfterFunc(d Duration, f func()) *Timer</code> : 该函数会另起一个 go 程，等时间到时，调用 f 方法。该方法不会向 Timer.C 发送时间。</p>
+</li>
+<li>
+<p><code>func (t *Timer) Reset(d Duration) bool</code> : 重置等待的时间，将其置为 d 。如果重置成功，则返回 true，如果定时器已经生效，则返回 false。</p>
+<ul>
+<li><code>func (t *Timer) Stop() bool</code> : 终止定时器，如果终止成功，返回 true 。如果定时器已经生效，返回 false。该函数不会关闭 Time.C ,所以不要通过判断通道是否关闭来作为定时器关闭的依据。</li>
+</ul>
+</li>
+</ul>
+<h2 id="ticker">Ticker</h2>
+<p>一直执行的定时器，并且每次触发就向 Ticker.C 通道发送当前时间。</p>
+<ul>
+<li>
+<p><code>func NewTicker(d Duration) *Ticker</code>: 创建一个 Ticker</p>
+</li>
+<li>
+<p><code>func (t *Ticker) Stop()</code>： 关闭一个 Ticker，该方法不会关闭 Ticker.C。</p>
+<h2 id="其他函数">其他函数</h2>
+<ul>
+<li><code>func Sleep(d Duration)</code> : 阻塞当前go程 d 时间。</li>
+<li><code>func After(d Duration) &lt;-chan Time</code> : 该函数会在另一线程等待 d 时间后，向返回值发送当前时间，等价 NewTimer(d).C</li>
+<li></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a></li>
+<li><a href="#type-duration-int64">type Duration int64</a></li>
+<li><a href="#%E6%97%B6%E9%97%B4%E7%9B%B8%E5%85%B3">时间相关</a>
+<ul>
+<li><a href="#%E6%97%B6%E5%8C%BA%E7%9B%B8%E5%85%B3">时区相关</a></li>
+<li><a href="#%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96">时间格式化</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AE%9A%E6%97%B6%E5%99%A8">定时器</a>
+<ul>
+<li><a href="#timer">Timer</a></li>
+<li><a href="#ticker">Ticker</a></li>
+<li><a href="#%E5%85%B6%E4%BB%96%E5%87%BD%E6%95%B0">其他函数</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://superpony.github.io/post/go-xia-de-fmt-bao">
+              <h3 class="post-title">
+                Go 下的 fmt 包
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '188a6590013429e9c097',
+    clientSecret: 'e923744b63525d11d81f31da6e79a5f1c005f68b',
+    repo: 'SuperPony.github.io',
+    owner: 'SuperPony',
+    admin: ['SuperPony'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  nice to meet you ～  | 
+  <a class="rss" href="https://superpony.github.io//atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

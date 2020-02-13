@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2020-02-09T12:47:52.975Z</updated>
+    <updated>2020-02-13T14:21:42.926Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io/atom.xml"/>
@@ -11,13 +11,144 @@
     <icon>https://superpony.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, SuperPony&apos;s Blog</rights>
     <entry>
+        <title type="html"><![CDATA[Go 下的 time 包]]></title>
+        <id>https://superpony.github.io/post/go-xia-de-time-bao</id>
+        <link href="https://superpony.github.io/post/go-xia-de-time-bao">
+        </link>
+        <updated>2020-02-10T13:07:54.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="介绍">介绍</h1>
+<p>time 包主要分为两大功能，一是对外提供了时间功能相关的实现，二是定时器功能相关的实现。这篇笔记主要记录 time 内常用的一些方法。</p>
+<h1 id="type-duration-int64">type Duration int64</h1>
+<p>Duration 类型代表两个时间点之间经过的时间，以纳秒为单位。可表示的最长时间段大约290年, 该类型主要用于时间计算以及定时器。</p>
+<pre><code>const (
+    Nanosecond  Duration = 1
+    Microsecond        = 1000 * Nanosecond
+    Millisecond          = 1000 * Microsecond
+    Second               = 1000 * Millisecond
+    Minute                = 60 * Second
+    Hour                   = 60 * Minute
+)
+</code></pre>
+<h1 id="时间相关">时间相关</h1>
+<p>time 包下的大部分方法的接收者都是 time.Time 类型，所以拿到 time.Time 类型是几乎是时间操作相关逻辑的第一步。</p>
+<ul>
+<li>
+<p><code>func Now() Time</code> : 返回当前的时间，格式为 2020-02-10 21:05:39.081226 +0800 CST m=+0.000109188 。</p>
+</li>
+<li>
+<p><code>func (t Time) Year() int / func (t Time) Day() int / func (t Time) Hour() int / func (t Time) Minute() int / func (t Time) Second() int</code>  : 返回对应的年 日 时 分 秒。</p>
+</li>
+<li>
+<p><code>func (t Time) Month() Month</code> :  Month 方法返回值有点特殊，是一个 Month 类型，想要对应的数字类型，还需要 int(Month) 转一下。</p>
+<ul>
+<li><code>func (t Time) Date() (year int, month Month, day int) / func (t Time) Clock() (hour, min, sec int)</code> : 返回 年月日， 时分秒。</li>
+</ul>
+</li>
+<li>
+<p><code>func (t Time) Add(d Duration) Time</code> : 返回 t + d  的时间，例如 求当前时间 + 1个小时后的时间。</p>
+</li>
+<li>
+<p><code>func (t Time) AddDate(years int, months int, days int) Time</code> : 返回 t + 年 月 日后的时间。</p>
+</li>
+<li>
+<p><code>func (t Time) Sub(u Time) Duration</code> :  t -  u 的时间差</p>
+</li>
+<li>
+<p><code>func (t Time) Equal(u Time) bool</code> ： 比较两个时间是否相同，底层会自动将时区的因素考虑进去，因此哪怕 t 和 u 的时区不同也可以进行比较。</p>
+</li>
+<li>
+<p><code>func (t Time) Before(u Time) bool</code> : 如果 t 在 u 之前，返回 true  否则 false</p>
+</li>
+<li>
+<p><code>func (t Time) After(u Time) bool</code> ： 如果 t 在 u 之后，返回 true  否则 false</p>
+</li>
+<li>
+<p><code>func (t Time) Unix() int64 / func (t Time) UnixNano() int64</code> : 返回时间戳 / 纳秒时间戳</p>
+</li>
+<li>
+<p><code>func (t Time) Zone() (name string, offset int)</code> : 返回当前时间的时区，以及相对于 UTC 时区的偏差（秒）</p>
+</li>
+</ul>
+<h2 id="时区相关">时区相关</h2>
+<ul>
+<li>
+<p><code>func LoadLocation(name string) (*Location, error)</code> : 根据 name 获取相应的时区，例如 Asia/Shanghai 或者 UTC ，以及可能的错误。</p>
+</li>
+<li>
+<p><code>func (l *Location) String() string</code> : 根据时区，返回对应的描述信息。</p>
+</li>
+</ul>
+<h2 id="时间格式化">时间格式化</h2>
+<p>和其他语言格式化的格式化模版 Y-m-d h m s 不太一样， Go 的格式化模版 是 2006 01 02 03/15 04 (Go 的诞生时间，2006年1月2号15点4分)</p>
+<ul>
+<li><code>func (t Time) Format(layout string) string</code> : 根据 layout 模版，进行格式化。</li>
+</ul>
+<pre><code>now := time.Now() //获取当前时间
+// .000 表示毫秒
+fmt.Println(now.Format(&quot;2006-01-02 15:04:05.000&quot;)) // 24小时制 用 15
+
+fmt.Println(now.Format(&quot;2006-01-02 03:04:05.000&quot;)) // 12小时制 用 03
+</code></pre>
+<ul>
+<li><code>func ParseInLocation(layout, value string, loc *Location) (Time, error)</code> : 根据指定的时间模版 layout 格式化 value 时间，时区采用 loc 。返回一个 Time 和可能的错误。</li>
+</ul>
+<pre><code>loc, err := time.LoadLocation(&quot;Asia/Shanghai&quot;)
+if err != nil {
+    fmt.Println(err)
+    return
+}
+
+t, err := time.ParseInLocation(&quot;2006-01-02 03:04:05&quot;, &quot;2020-01-21 02:22:32&quot;, loc)
+if err != nil {
+    fmt.Println(err)
+    return
+}
+fmt.Println(t) 
+</code></pre>
+<h1 id="定时器">定时器</h1>
+<p>time 包下的定时器分为两类， Timer 类型的只执行一次的定时器和 Ticker 类型的一直执行的定时器。两种类型内都包含了一个 chan Time 类型的 C 字段。当时间到的时候，就会向该字段发送当前的时间。</p>
+<h2 id="timer">Timer</h2>
+<p>单次定时器。</p>
+<ul>
+<li>
+<p><code>func NewTimer(d Duration) *Timer</code> : 设置一个单次定时器，在等待时，会阻塞当前go程。当时间到时，向 Timer.C  通道发送当前时间。</p>
+</li>
+<li>
+<p><code>func AfterFunc(d Duration, f func()) *Timer</code> : 该函数会另起一个 go 程，等时间到时，调用 f 方法。该方法不会向 Timer.C 发送时间。</p>
+</li>
+<li>
+<p><code>func (t *Timer) Reset(d Duration) bool</code> : 重置等待的时间，将其置为 d 。如果重置成功，则返回 true，如果定时器已经生效，则返回 false。</p>
+<ul>
+<li><code>func (t *Timer) Stop() bool</code> : 终止定时器，如果终止成功，返回 true 。如果定时器已经生效，返回 false。该函数不会关闭 Time.C ,所以不要通过判断通道是否关闭来作为定时器关闭的依据。</li>
+</ul>
+</li>
+</ul>
+<h2 id="ticker">Ticker</h2>
+<p>一直执行的定时器，并且每次触发就向 Ticker.C 通道发送当前时间。</p>
+<ul>
+<li>
+<p><code>func NewTicker(d Duration) *Ticker</code>: 创建一个 Ticker</p>
+</li>
+<li>
+<p><code>func (t *Ticker) Stop()</code>： 关闭一个 Ticker，该方法不会关闭 Ticker.C。</p>
+<h2 id="其他函数">其他函数</h2>
+<ul>
+<li><code>func Sleep(d Duration)</code> : 阻塞当前go程 d 时间。</li>
+<li><code>func After(d Duration) &lt;-chan Time</code> : 该函数会在另一线程等待 d 时间后，向返回值发送当前时间，等价 NewTimer(d).C</li>
+<li></li>
+</ul>
+</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Go 下的 fmt 包]]></title>
         <id>https://superpony.github.io/post/go-xia-de-fmt-bao</id>
         <link href="https://superpony.github.io/post/go-xia-de-fmt-bao">
         </link>
         <updated>2020-02-08T06:50:55.000Z</updated>
         <content type="html"><![CDATA[<h1 id="介绍">介绍</h1>
-<p>fmt 库是 Go 中使用非常频繁的一个标准库，该库主要实现了 格式化的 I/O 操作。该库的下的函数主要分为两大类， Scan 和 Print 。Scan 用于获取输入的内容而 Print 则用于向外输出内容。</p>
+<p>fmt 库是 Go 中使用非常频繁的一个标准库，该库主要实现了 格式化的标准 I/O 操作。该库的下的函数主要分为两大类， Scan 和 Print 。Scan 用于获取输入的内容而 Print 则用于向外输出内容。</p>
 <p>该笔记会记录一些常用的输出/输入函数，不会去记录所有函数。</p>
 <h1 id="占位符">占位符</h1>
 <p>下面列表中，常用的占位符加粗显示。</p>
@@ -1013,132 +1144,6 @@ func main() {
 </code></pre>
 <p>上面的代码，如果按照 等级*各自选择器个数再求和 的公式来计算，第一个选择器的权值为：1000*0+100*0+10*11+1*0 = 110。  第二个选择器权值为 1000*0+100*1+10*0+1*0 = 100。 则最终 实际渲染结果为 蓝色的字，50px大小。<br>
 但最终结果却是， 红色的字 50px 大小。因为，低等级的选择器，无论个数再多，也是无法越等级的。则实际计算结果因该是 第一个选择器权值： 0，0，11，0 。 第二个选择器权值 0，1，0，0 。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CSS 规范标准]]></title>
-        <id>https://superpony.github.io/post/css-gui-fan-biao-zhun</id>
-        <link href="https://superpony.github.io/post/css-gui-fan-biao-zhun">
-        </link>
-        <updated>2019-11-06T08:27:27.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="代码风格">代码风格</h1>
-<ul>
-<li>采用 UTF-8 编码， 在 CSS 头部引用 @charset &quot;utf-8&quot;。</li>
-<li>以 4 个空格作为缩进。</li>
-<li>每行不超过 120 字符，除非单行不可分割。</li>
-<li>选择器嵌套层级不大于 3 级。</li>
-<li>尽量不要使用 @import，因为 与 <links> 相比， @import 速度更慢，增加了额外的页面请求，并可能导致无法预料的问题。</li>
-<li>Media Query不得单独编排，必须与相关的规则一起定义。</li>
-</ul>
-<h1 id="样式属性排序">样式属性排序</h1>
-<h2 id="布局位置">布局位置</h2>
-<p>display &gt; position &gt; top &gt; right &gt; bottom &gt; left &gt; z-index &gt; float &gt; clear &gt; vertical-align &gt; list-style &gt; content</p>
-<h2 id="自身属性">自身属性</h2>
-<p>width &gt; height &gt; padding &gt; border &gt; margin  &gt; background</p>
-<h2 id="文本属">文本属</h2>
-<p>font &gt; font-size &gt; font-weight &gt; font-family &gt; text-align &gt; text-decoration &gt; text-indent &gt; line-height</p>
-<p>white-space &gt; text-ellipsis</p>
-<h2 id="其他属性">其他属性</h2>
-<p>color &gt; background &gt; cursor &gt; zoom</p>
-<h2 id="css3属性">css3属性</h2>
-<p>box-sizing &gt; box-shadow &gt; border-radius &gt; transform &gt; transition</p>
-<h1 id="书写规范">书写规范</h1>
-<ul>
-<li>优先使用可以缩写的属性。</li>
-<li>取消小数点前的 0。</li>
-</ul>
-<pre><code>font-size: 0.5em; /*bad*/ 
-font-size: .5em; /*good*/ 
-</code></pre>
-<h1 id="命名单词">命名单词</h1>
-<p>头：header</p>
-<p>内容：content/container</p>
-<p>尾：footer</p>
-<p>导航：nav</p>
-<p>侧栏：sidebar</p>
-<p>栏目：column</p>
-<p>页面外围控制整体佈局宽度：wrapper</p>
-<p>左右中：left right center</p>
-<p>登录条：loginbar</p>
-<p>标志：logo</p>
-<p>广告：banner</p>
-<p>页面主体：main</p>
-<p>热点：hot</p>
-<p>新闻：news</p>
-<p>下载：download</p>
-<p>子导航：subnav</p>
-<p>菜单：menu</p>
-<p>子菜单：submenu</p>
-<p>搜索：search</p>
-<p>友情链接：friendlink</p>
-<p>页脚：footer</p>
-<p>版权：copyright</p>
-<p>滚动：scroll</p>
-<p>内容：content</p>
-<p>标签：tags</p>
-<p>文章列表：list</p>
-<p>提示信息：msg</p>
-<p>小技巧：tips</p>
-<p>栏目标题：title</p>
-<p>加入：joinus</p>
-<p>指南：guide</p>
-<p>服务：service</p>
-<p>注册：regsiter</p>
-<p>状态：status</p>
-<p>投票：vote</p>
-<p>合作伙伴：partner</p>
-<p>ID的命名-页面结构</p>
-<p>容器: container</p>
-<p>页头：header</p>
-<p>内容：content/container</p>
-<p>页面主体：main</p>
-<p>页尾：footer</p>
-<p>导航：nav</p>
-<p>侧栏：sidebar</p>
-<p>栏目：column</p>
-<p>页面外围控制整体佈局宽度：wrapper</p>
-<p>左右中：left right center</p>
-<p>ID的命名-导航</p>
-<p>导航：nav</p>
-<p>主导航：mainnav</p>
-<p>子导航：subnav</p>
-<p>顶导航：topnav</p>
-<p>边导航：sidebar</p>
-<p>左导航：leftsidebar</p>
-<p>右导航：rightsidebar</p>
-<p>菜单：menu</p>
-<p>子菜单：submenu</p>
-<p>标题: title</p>
-<p>摘要: summary</p>
-<p>ID的命名-功能</p>
-<p>标志：logo</p>
-<p>广告：banner</p>
-<p>登陆：login</p>
-<p>登录条：loginbar</p>
-<p>注册：register</p>
-<p>搜索：search</p>
-<p>功能区：shop</p>
-<p>标题：title</p>
-<p>加入：joinus</p>
-<p>状态：status</p>
-<p>按钮：btn</p>
-<p>滚动：scroll</p>
-<p>标签页：tab</p>
-<p>文章列表：list</p>
-<p>提示信息：msg</p>
-<p>当前的: current</p>
-<p>小技巧：tips</p>
-<p>图标: icon</p>
-<p>注释：note</p>
-<p>指南：guild</p>
-<p>服务：service</p>
-<p>热点：hot</p>
-<p>新闻：news</p>
-<p>下载：download</p>
-<p>投票：vote</p>
-<p>合作伙伴：partner</p>
-<p>友情链接：link</p>
-<p>版权：copyright</p>
 ]]></content>
     </entry>
 </feed>
