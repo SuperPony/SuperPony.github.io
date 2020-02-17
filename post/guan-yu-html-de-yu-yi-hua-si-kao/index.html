@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>return 和 defer 的底层运行步骤 | SuperPony&#39;s Blog</title>
+<title>关于在 HTML 开发中是否使用语义标签的思考 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
 <link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1581944252166">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
@@ -76,18 +76,18 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              return 和 defer 的底层运行步骤
+              关于在 HTML 开发中是否使用语义标签的思考
             </h2>
             <div class="post-info">
               <span>
-                2020-02-07
+                2019-11-08
               </span>
               <span>
                 3 min read
               </span>
               
-                <a href="https://superpony.github.io/tag/lwYeP536g" class="post-tag">
-                  # Go
+                <a href="https://superpony.github.io/tag/6tSCo9O0U" class="post-tag">
+                  # HTML
                 </a>
               
             </div>
@@ -95,122 +95,38 @@
             <div class="post-content-wrapper">
               <div class="post-content">
                 <h1 id="前言">前言</h1>
-<p>先看几个例子</p>
-<pre><code>func f1() int {
-	x := 5
-	defer func() {
-		x++
-	}()
-
-	return x
-}
-
-func f2() (x int) {
-	x = 5
-	defer func() {
-		x++
-	}()
-
-	return
-}
-
-func f3() (x int) {
-	defer func() {
-		x++
-	}()
-
-	return 5
-}
-
-func f4() (x int) {
-	defer func(x int) {
-		x++
-	}(x)
-
-	return 5
-}
-
-func main() {
-	fmt.Println(f1()) // 5
-	fmt.Println(f2()) // 6
-	fmt.Println(f3()) // 6
-	fmt.Println(f4()) // 5
-}
-</code></pre>
-<p>在日常开发中， defer 通常是用来做一些收尾工作的事情，例如 文件句柄关闭。所以上述的例子几乎不太可能出现在实际的日常开发中。但是，这几个例子对于理解 return、defer 的底层执行步骤是有很大帮助的。</p>
-<h1 id="return-和-defer-运行机制">return 和 defer 运行机制</h1>
-<h2 id="return">return</h2>
-<p><strong>return 并不是一个具有原子性的操作。</strong> 在一个函数 return 的时候，例如 return x ，其实底层是执行了两个步骤：</p>
-<ol>
-<li>将 x 赋予实际返回值。</li>
-<li>执行 RET 指令。</li>
-</ol>
-<h2 id="defer">defer</h2>
-<p>当函数中有 defer 操作时，则会将 defer 插入到 return 的步骤 1 和 2 之间。从而使 return 的步骤变为了3步：</p>
-<ol>
-<li>将 x 赋予实际返回值。</li>
-<li>执行 defer 的代码片段。</li>
-<li>执行 RET 指令。</li>
-</ol>
-<h2 id="示意图">示意图</h2>
-<p><img src="https://superpony.github.io//post-images/1581086636037.png" alt="" loading="lazy"><br>
-该图片取自: <a href="https://www.liwenzhou.com/posts/Go/09_function">https://www.liwenzhou.com/posts/Go/09_function</a> , 而且该博主做的 go 语言教程，笔者个人觉着做的很细致，很值得学习。</p>
-<h1 id="回到例子">回到例子</h1>
-<p>当明白 return 和 defer 在底层是怎么跑的以后，其实在看刚才例子就已经很好理解了。</p>
-<pre><code>func f1() int {
-	x := 5
-	defer func() {
-		x++ // 2. 此时操作 x 并不会影响到实际返回值
-	}()
-
-	return x // 1. return 已经将 x 赋予实际返回值
-}
-
-func f2() (x int) { // 命名返回值
-	x = 5
-	defer func() {
-		x++ // 操作的是返回值的变量，所以最终返回值是 6
-	}()
-
-	return
-}
-
-func f3() (x int) {
-	defer func() {
-		x++ // 和 f2() 同理， defer 内操作的都是实际的函数返回值变量
-	}()
-
-	return 5
-}
-
-func f4() (x int) {
-	defer func(x int) {
-		x++ // go 中的函数传参都是值传递，传递的都是参数的副本，所以这里的 x++ 其实是在对 x 参数的拷贝进行的操作，因此是返回值是 5
-	}(x)
-
-	return 5
-}
-
-func main() {
-	fmt.Println(f1()) // 5
-	fmt.Println(f2()) // 6
-	fmt.Println(f3()) // 6
-	fmt.Println(f4()) // 5
-}
-</code></pre>
+<p>这两天在学习 极客时间 上面程劭非老师的 <strong><a href="https://time.geekbang.org/column/intro/100023201">重学前端</a></strong> 课程，看到 HTML 语义：div 和 span 是不够用了吗？ 这一篇内容时，其实学完，觉着还是挺有争议的。<br>
+呃......先把我学完的到东西，写下来。</p>
+<h1 id="语义类标签是什么">语义类标签是什么</h1>
+<p>语义类标签的特点是，视觉表现上相互都差不多，主要区别在于，它们代表的语义不同，例如常见的 nav， p 等标签，都是语义标签。<br>
+而语义就是我们日常说话所表达的意思，多数的语义都是由文字或语言来承载的。语义标签则是在 HEML 中，对纯文字的补充，例如， 标题，段落，列表，这些都是无法用纯文字来表达的，所以需要依赖 语义标签表达。</p>
+<h2 id="语义标签的使用场景">语义标签的使用场景</h2>
+<p>第一个使用场景，也是最自然的使用场景，就是作为自然语言和纯文本的补充，所来表达一定的结构，和消除歧义。</p>
+<p>第二个使用场景，就是作为 标题摘要的标签。</p>
+<p>第三个使用场景，适合及其阅读的整体结构。</p>
+<h2 id="使用语义类标签的好处">使用语义类标签的好处</h2>
+<ul>
+<li>增加了代码的可读性</li>
+<li>更利于 SEO 和搜索引擎爬虫获取更多有效信息。</li>
+<li>使用恰当的语义标签 更利于一些读屏软件识别，例如文章自动生成目录等。</li>
+</ul>
+<h1 id="思考">思考</h1>
+<p>首先可以肯定的是， <strong>&quot;用对&quot; &gt; “不用” &gt; &quot;用错&quot;</strong>。在这个前提下，我个人觉着，在实际项目中，追求 <strong>精准</strong>的使用语义化标签，就像是 ”饭后甜点“，有条件有能力最好，但如果没有条件，也不要过于强求。从实际考量，站在个人的角度出发，如果自己的 HTML ”功力“，还没有达到对每个语义标签所表示的语义都正确的了解，那么还是慎用，或者说只用自己掌握的。而从团队的的角度触发，不是每一个团队的<strong>整体前端实力</strong>都是很强的，所以 即便你的 HTML 功力够深，对于语义标签的掌握也是十分娴熟，但是过多的使用语义标签，是否会造成标签冗余这个问题，以及对于团队的其他人而言，是否反而会造成代码可读性下降的问题。</p>
+<h1 id="个人总结">个人总结</h1>
+<p>精准的使用语义标签，好处在上文中已经提到，而且这也是个人对于自身技术的高要求的体现，同时也是自己 HTML 功力的体现。作为一个编程工作者，对于自己严要求，这也绝对是好事。但如果，你所处的公司团队并不是太(很)理（烂）想，哪还是慎重吧。</p>
 
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
 <li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
-<li><a href="#return-%E5%92%8C-defer-%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6">return 和 defer 运行机制</a>
+<li><a href="#%E8%AF%AD%E4%B9%89%E7%B1%BB%E6%A0%87%E7%AD%BE%E6%98%AF%E4%BB%80%E4%B9%88">语义类标签是什么</a>
 <ul>
-<li><a href="#return">return</a></li>
-<li><a href="#defer">defer</a></li>
-<li><a href="#%E7%A4%BA%E6%84%8F%E5%9B%BE">示意图</a></li>
+<li><a href="#%E8%AF%AD%E4%B9%89%E6%A0%87%E7%AD%BE%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF">语义标签的使用场景</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E8%AF%AD%E4%B9%89%E7%B1%BB%E6%A0%87%E7%AD%BE%E7%9A%84%E5%A5%BD%E5%A4%84">使用语义类标签的好处</a></li>
 </ul>
 </li>
-<li><a href="#%E5%9B%9E%E5%88%B0%E4%BE%8B%E5%AD%90">回到例子</a></li>
+<li><a href="#%E6%80%9D%E8%80%83">思考</a></li>
+<li><a href="#%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93">个人总结</a></li>
 </ul>
 
               </div>
@@ -221,9 +137,9 @@ func main() {
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://superpony.github.io/post/es6-zhong-de-jian-tou-han-shu">
+            <a href="https://superpony.github.io/post/guan-yu-ji-zhu-fang-mian-de-xue-xi-fang-fa-he-lu-xian">
               <h3 class="post-title">
-                ES6 中的箭头函数
+                关于技术方面的学习方法和路线
               </h3>
             </a>
           </div>

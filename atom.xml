@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://superpony.github.io/</id>
     <title>SuperPony&apos;s Blog</title>
-    <updated>2020-02-15T15:35:02.880Z</updated>
+    <updated>2020-02-17T12:57:35.464Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://superpony.github.io/"/>
     <link rel="self" href="https://superpony.github.io/atom.xml"/>
@@ -781,10 +781,10 @@ func main() {
 <p>在 JS 中，this 真的是一个非常重要，非常重要，非常重要（重要的事情说三遍）的关键知识点，重要到如果不能理解它，绝大部分的开发都无法完成。</p>
 <p>但是由于 this 的过于灵活，导致 this 的指向经常会出现意想不到的情况，让人（可能只有我😓）懵逼，所以不能彻底搞清 this 的指向的 JS 人员，不是一个合格的 J（鸡）S（屎） 人员。🤓</p>
 <h1 id="本质">本质</h1>
-<p>任何东西总有它的本质， this 也不例外。就我个人而言根据，根据一些资料的学习和参考，觉着 JS 的本质有两点。</p>
+<p>任何东西总有它的本质， this 也不例外。根据一些资料的学习和参考，我个人觉着 JS 的本质有两点。</p>
 <ul>
 <li>this 在非严格模式下总是会返回一个对象，也许这个对象不是自己所想要的。</li>
-<li>this 的指向千万不要被它的单词表面意思所迷惑，this 的指向取决于调用函数时的上下文环境，又或者说， this 的指向取决于函数调用的位置。</li>
+<li>this 的指向千万不要被它的单词表面意思所迷惑，this 的指向取决于调用函数时的上下文环境，又或者说， this 的指向取决于函数调用时的位置。</li>
 </ul>
 <h1 id="指向规则">指向规则</h1>
 <h2 id="默认绑定">默认绑定</h2>
@@ -1000,7 +1000,7 @@ func main() {
         <updated>2019-11-08T02:47:21.000Z</updated>
         <content type="html"><![CDATA[<h1 id="前言">前言</h1>
 <p>很多经典的 JS 教程中，都会讲 undefined 和 null的区别， undefined 表示 &quot;尚未定义&quot;，而 null 则代表着 “定义了但是为空”。 而在一些 JS 规范中，经常会提到，用 void 0 来获取 undefined 值 而不是直接 获取 undefined 的值。</p>
-<p>于是问题就来了， undefined 和 null 的区别仅仅在于二者的字面含义不同吗，而为什么 在一些 JS 规范中，要求 void 0 代替 直接使用 undefined，只是为了节省3个字节吗？</p>
+<p>于是问题就来了， undefined 和 null 的区别仅仅在于二者的语意不同吗，而为什么 在一些 JS 规范中，要求 void 0 代替 直接使用 undefined，只是为了节省3个字节吗？</p>
 <h1 id="undefined-是一个变量">undefined 是一个变量</h1>
 <p>区别在于， null 是 JS 中的关键字，而 undefined 却是一个变量，这也是 JS 这门语言公认的设计失误之一。在 ES5之前，全局下的 undefined 是可写的，而之所以用 void 0 来取 undefined 值，就是为了防止 某些极端情况下， undefeined 被重写。</p>
 <p>注意： ES5开始， undefeined 在全局环境下虽然不可写了，但是，在局部环境，仍然可以重新声明且可写。</p>
@@ -1013,6 +1013,7 @@ func main() {
     function testUndefined() {
         var undefined = &quot;i'm undefined&quot;;
         console.log(undefined); // 输出 i'm undefined
+        console.log(typeof undefined); // 没有东西
     }
 
     // 报错， null 是关键字

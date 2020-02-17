@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>this 到底指向哪 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
-<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1581780885065">
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1581944252166">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
   integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -19,7 +19,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://superpony.github.io/">
-  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1581780885065" alt="">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1581944252166" alt="">
   </a>
   <h1 class="site-title">
     SuperPony&#39;s Blog
@@ -98,10 +98,10 @@
 <p>在 JS 中，this 真的是一个非常重要，非常重要，非常重要（重要的事情说三遍）的关键知识点，重要到如果不能理解它，绝大部分的开发都无法完成。</p>
 <p>但是由于 this 的过于灵活，导致 this 的指向经常会出现意想不到的情况，让人（可能只有我😓）懵逼，所以不能彻底搞清 this 的指向的 JS 人员，不是一个合格的 J（鸡）S（屎） 人员。🤓</p>
 <h1 id="本质">本质</h1>
-<p>任何东西总有它的本质， this 也不例外。就我个人而言根据，根据一些资料的学习和参考，觉着 JS 的本质有两点。</p>
+<p>任何东西总有它的本质， this 也不例外。根据一些资料的学习和参考，我个人觉着 JS 的本质有两点。</p>
 <ul>
 <li>this 在非严格模式下总是会返回一个对象，也许这个对象不是自己所想要的。</li>
-<li>this 的指向千万不要被它的单词表面意思所迷惑，this 的指向取决于调用函数时的上下文环境，又或者说， this 的指向取决于函数调用的位置。</li>
+<li>this 的指向千万不要被它的单词表面意思所迷惑，this 的指向取决于调用函数时的上下文环境，又或者说， this 的指向取决于函数调用时的位置。</li>
 </ul>
 <h1 id="指向规则">指向规则</h1>
 <h2 id="默认绑定">默认绑定</h2>

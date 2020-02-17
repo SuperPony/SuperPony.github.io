@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>JS 中 undefined 到底是个啥 | SuperPony&#39;s Blog</title>
 <meta name="description" content="Just for fun" />
-<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1581780885065">
+<link rel="shortcut icon" href="https://superpony.github.io//favicon.ico?v=1581944252166">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
   integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -19,7 +19,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://superpony.github.io/">
-  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1581780885065" alt="">
+  <img class="avatar" src="https://superpony.github.io//images/avatar.png?v=1581944252166" alt="">
   </a>
   <h1 class="site-title">
     SuperPony&#39;s Blog
@@ -96,7 +96,7 @@
               <div class="post-content">
                 <h1 id="前言">前言</h1>
 <p>很多经典的 JS 教程中，都会讲 undefined 和 null的区别， undefined 表示 &quot;尚未定义&quot;，而 null 则代表着 “定义了但是为空”。 而在一些 JS 规范中，经常会提到，用 void 0 来获取 undefined 值 而不是直接 获取 undefined 的值。</p>
-<p>于是问题就来了， undefined 和 null 的区别仅仅在于二者的字面含义不同吗，而为什么 在一些 JS 规范中，要求 void 0 代替 直接使用 undefined，只是为了节省3个字节吗？</p>
+<p>于是问题就来了， undefined 和 null 的区别仅仅在于二者的语意不同吗，而为什么 在一些 JS 规范中，要求 void 0 代替 直接使用 undefined，只是为了节省3个字节吗？</p>
 <h1 id="undefined-是一个变量">undefined 是一个变量</h1>
 <p>区别在于， null 是 JS 中的关键字，而 undefined 却是一个变量，这也是 JS 这门语言公认的设计失误之一。在 ES5之前，全局下的 undefined 是可写的，而之所以用 void 0 来取 undefined 值，就是为了防止 某些极端情况下， undefeined 被重写。</p>
 <p>注意： ES5开始， undefeined 在全局环境下虽然不可写了，但是，在局部环境，仍然可以重新声明且可写。</p>
@@ -109,6 +109,7 @@
     function testUndefined() {
         var undefined = &quot;i'm undefined&quot;;
         console.log(undefined); // 输出 i'm undefined
+        console.log(typeof undefined); // 没有东西
     }
 
     // 报错， null 是关键字
@@ -136,9 +137,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://superpony.github.io/post/guan-yu-ji-zhu-fang-mian-de-xue-xi-fang-fa-he-lu-xian">
+            <a href="https://superpony.github.io/post/guan-yu-html-de-yu-yi-hua-si-kao">
               <h3 class="post-title">
-                关于技术方面的学习方法和路线
+                关于在 HTML 开发中是否使用语义标签的思考
               </h3>
             </a>
           </div>
